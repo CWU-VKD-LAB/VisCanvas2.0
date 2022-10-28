@@ -2705,44 +2705,44 @@ Class System.Windows.Forms.ButtonBase: AutoLayout, AnsiClass, Class, Public, Abs
     System.EventHandler AutoSizeChanged: 
     System.EventHandler ImeModeChanged: 
   Methods:
-    get_AutoEllipsis(): PrivateScope, Public, HideBySig, SpecialName
     set_AutoEllipsis(Boolean): PrivateScope, Public, HideBySig, SpecialName
-    get_AutoSize(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_AutoEllipsis(): PrivateScope, Public, HideBySig, SpecialName
     set_AutoSize(Boolean): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    add_AutoSizeChanged(EventHandler): PrivateScope, Public, HideBySig, SpecialName
-    remove_AutoSizeChanged(EventHandler): PrivateScope, Public, HideBySig, SpecialName
-    get_BackColor(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_AutoSize(): PrivateScope, Public, Virtual, HideBySig, SpecialName
     set_BackColor(Color): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_FlatStyle(): PrivateScope, Public, HideBySig, SpecialName
+    get_BackColor(): PrivateScope, Public, Virtual, HideBySig, SpecialName
     set_FlatStyle(FlatStyle): PrivateScope, Public, HideBySig, SpecialName
+    get_FlatStyle(): PrivateScope, Public, HideBySig, SpecialName
     get_FlatAppearance(): PrivateScope, Public, HideBySig, SpecialName
-    get_Image(): PrivateScope, Public, HideBySig, SpecialName
     set_Image(Image): PrivateScope, Public, HideBySig, SpecialName
+    get_Image(): PrivateScope, Public, HideBySig, SpecialName
     get_ImageAlign(): PrivateScope, Public, HideBySig, SpecialName
     set_ImageAlign(ContentAlignment): PrivateScope, Public, HideBySig, SpecialName
     get_ImageIndex(): PrivateScope, Public, HideBySig, SpecialName
     set_ImageIndex(Int32): PrivateScope, Public, HideBySig, SpecialName
     get_ImageKey(): PrivateScope, Public, HideBySig, SpecialName
     set_ImageKey(String): PrivateScope, Public, HideBySig, SpecialName
-    get_ImageList(): PrivateScope, Public, HideBySig, SpecialName
     set_ImageList(ImageList): PrivateScope, Public, HideBySig, SpecialName
+    get_ImageList(): PrivateScope, Public, HideBySig, SpecialName
     get_ImeMode(): PrivateScope, Public, HideBySig, SpecialName
     set_ImeMode(ImeMode): PrivateScope, Public, HideBySig, SpecialName
-    add_ImeModeChanged(EventHandler): PrivateScope, Public, HideBySig, SpecialName
-    remove_ImeModeChanged(EventHandler): PrivateScope, Public, HideBySig, SpecialName
-    get_Text(): PrivateScope, Public, Virtual, HideBySig, SpecialName
     set_Text(String): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_TextAlign(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_Text(): PrivateScope, Public, Virtual, HideBySig, SpecialName
     set_TextAlign(ContentAlignment): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_TextAlign(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_TextImageRelation(): PrivateScope, Public, HideBySig, SpecialName
     set_TextImageRelation(TextImageRelation): PrivateScope, Public, HideBySig, SpecialName
     get_UseMnemonic(): PrivateScope, Public, HideBySig, SpecialName
     set_UseMnemonic(Boolean): PrivateScope, Public, HideBySig, SpecialName
-    GetPreferredSize(Size): PrivateScope, Public, Virtual, HideBySig
-    get_UseCompatibleTextRendering(): PrivateScope, Public, HideBySig, SpecialName
     set_UseCompatibleTextRendering(Boolean): PrivateScope, Public, HideBySig, SpecialName
+    get_UseCompatibleTextRendering(): PrivateScope, Public, HideBySig, SpecialName
     get_UseVisualStyleBackColor(): PrivateScope, Public, HideBySig, SpecialName
     set_UseVisualStyleBackColor(Boolean): PrivateScope, Public, HideBySig, SpecialName
+    add_AutoSizeChanged(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_AutoSizeChanged(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_ImeModeChanged(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    add_ImeModeChanged(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    GetPreferredSize(Size): PrivateScope, Public, Virtual, HideBySig
 Class System.Windows.Forms.ButtonBase+ButtonBaseAccessibleObject: AutoLayout, AnsiClass, Class, NestedPublic, BeforeFieldInit
   :System.Windows.Forms.Control+ControlAccessibleObject
     Void .ctor(System.Windows.Forms.Control): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

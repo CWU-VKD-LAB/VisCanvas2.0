@@ -148,6 +148,9 @@
     <ClCompile Include="NormalizationStyle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AccuracyThreshold.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -289,6 +292,9 @@
       <Filter>Header Files\Dominant Nominal Set Visualization</Filter>
     </ClInclude>
     <ClInclude Include="NormalizationStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AccuracyThreshold.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

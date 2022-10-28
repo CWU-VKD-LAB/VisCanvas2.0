@@ -315,7 +315,7 @@ public:
 
 	// auto create hypercube clusters around classes
 	void autoCluster();
-	void highlightOverlap(double threshold);
+	void highlightOverlap();
 	void deleteEqualClusters();
 	void combineAdjacentCubes();
 
@@ -511,8 +511,8 @@ private:
 	bool paintClassColors;
 	// holds the boolean of whether clusters use mean or median
 	bool useMean;
-	double radius;
-	// holds the graph notes
+	double radius = 0.9;
+	// holds the graph notes 
 	std::vector<GraphNote> notes;
 
 	// a field to hold the name of the maximum y value

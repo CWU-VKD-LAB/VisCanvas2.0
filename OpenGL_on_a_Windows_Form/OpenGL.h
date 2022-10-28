@@ -280,7 +280,7 @@ namespace OpenGLForm
 		System::Void autoCluster(System::Void)
 		{
 			//this->file->autoCluster();
-			this->file->highlightOverlap(0.0);
+			this->file->highlightOverlap();
 		}
 
 		/**
@@ -1423,25 +1423,28 @@ namespace OpenGLForm
 
 					if (this->file->drawBorders() && this->file->getDisplayed(this->file->getSelectedClusterIndex()))
 					{
-						std::vector<double>* colorOfCurrent = this->file->getClusterColor(this->file->getDisplayed(this->file->getSelectedClusterIndex()));
-						glColor4d(192.0, 192.0, 192.0, 1.0);
-
-						glBegin(GL_QUAD_STRIP);
-						for (int i = 0; i < this->file->getDimensionAmount(); i++)
+						if (this->file->getDisplayed(this->file->getSelectedClusterIndex()))
 						{
-							if (this->file->getDataDimensions()->at(i)->isVisible())
+							std::vector<double>* colorOfCurrent = this->file->getClusterColor(this->file->getSelectedClusterIndex());
+							glColor4d(192.0, 192.0, 192.0, 1.0);
+
+							glBegin(GL_QUAD_STRIP);
+							for (int i = 0; i < this->file->getDimensionAmount(); i++)
 							{
-								double currentData = this->file->getClusters().at(file->getSelectedClusterIndex()).getMaximum(i);
-								glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
+								if (this->file->getDataDimensions()->at(i)->isVisible())
+								{
+									double currentData = this->file->getClusters().at(file->getSelectedClusterIndex()).getMaximum(i);
+									glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
 
-								currentData = this->file->getClusters().at(file->getSelectedClusterIndex()).getMinimum(i);
-								glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
+									currentData = this->file->getClusters().at(file->getSelectedClusterIndex()).getMinimum(i);
+									glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
 
-								dimensionCount++;
+									dimensionCount++;
+								}
 							}
+							glEnd();
+							dimensionCount = 0;
 						}
-						glEnd();
-						dimensionCount = 0;
 					}
 
 

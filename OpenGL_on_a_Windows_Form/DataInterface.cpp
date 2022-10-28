@@ -1909,7 +1909,7 @@ void DataInterface::autoCluster() {
 			bool withinCube = true;
 			for (int k = 0; k < getDimensionAmount(); k++)
 			{
-				if (!(getData(j, k) >= classMin.at(k)/*(classMedian.at(k) - cubeThreshold)*/ && getData(j, k) <= classMax.at(k)/*(classMedian.at(k) + cubeThreshold)*/))
+				if (!(getData(j, k) >= classMin.at(k) && getData(j, k) <= classMax.at(k)))
 				{
 					withinCube = false;
 				}
@@ -1926,23 +1926,31 @@ void DataInterface::autoCluster() {
 		clusterColor.setGreen((*colorConponents)[1]);
 		clusterColor.setBlue((*colorConponents)[2]);
 		clusterColor.setAlpha((*colorConponents)[3]);
-		clusters.push_back(SetCluster(clusterColor, &selectedInstances/*, &dataDimensions*/));
+		clusters.push_back(SetCluster(clusterColor, &selectedInstances));
 		clusters[clusters.size() - 1].setRadius(cubeThreshold);
 		clusters[clusters.size() - 1].setName(dataClasses[i].getName());
 	}
 }
 
-void DataInterface::highlightOverlap(double threshold)
+void DataInterface::highlightOverlap()
 {
+	// get purity threshold
+	CppCLRWinformsProjekt::AccuracyThreshold^ at = gcnew CppCLRWinformsProjekt::AccuracyThreshold();
+	at->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
+	at->ShowDialog();
+
+	double accThreshold = at->getThreshold();
+
 	clusters.clear();
 	pureCubes.clear();
 	selectedSetIndex = 0;
 	totalCubeCount = 0;
 	overlappingCubeCount = 0;
-	double accThreshold = 0.90;
 	selectedSetIndex = 0;
 	vector<int> selectedInstances = vector<int>();
 	vector<SetCluster> blocks = vector<SetCluster>();
+	int temp = getSetAmount();
+	int temp2 = getDimensionAmount();
 
 	for (int i = 0; i < getSetAmount(); i++) // selected instances
 	{
@@ -2073,7 +2081,6 @@ void DataInterface::highlightOverlap(double threshold)
 	} while (actionTaken || count > 0);
 
 	// impure
-
 	actionTaken = false;
 	toBeDeleted = set<int>();
 	count = blocks.size();
@@ -2087,7 +2094,7 @@ void DataInterface::highlightOverlap(double threshold)
 		toBeDeleted.clear();
 		actionTaken = false;
 
-		if (blocks.size() <= 0)
+		if (blocks.size() <= 1)
 			break;
 
 		SetCluster temp = blocks.front();

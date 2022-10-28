@@ -149,24 +149,24 @@ Class System.Windows.Forms.DataVisualization.Charting.Annotation: AutoLayout, An
     Boolean AllowPathEditing 'get set' : 
     System.String ToolTip 'get set' : 
   Methods:
-    get_Name(): PrivateScope, Public, Virtual, HideBySig, SpecialName
     set_Name(String): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_Name(): PrivateScope, Public, Virtual, HideBySig, SpecialName
     get_AnnotationType(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, Abstract, SpecialName
-    get_ClipToChartArea(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_ClipToChartArea(String): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_SmartLabelStyle(): PrivateScope, Public, HideBySig, SpecialName
+    get_ClipToChartArea(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_SmartLabelStyle(AnnotationSmartLabelStyle): PrivateScope, Public, HideBySig, SpecialName
+    get_SmartLabelStyle(): PrivateScope, Public, HideBySig, SpecialName
     get_AnnotationGroup(): PrivateScope, Public, HideBySig, SpecialName
-    get_IsSizeAlwaysRelative(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_IsSizeAlwaysRelative(Boolean): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_X(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_IsSizeAlwaysRelative(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_X(Double): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_X(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_Y(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_Y(Double): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_Width(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_Width(Double): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_Height(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_Width(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_Height(Double): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_Height(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_Right(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_Right(Double): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_Bottom(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
@@ -176,70 +176,70 @@ Class System.Windows.Forms.DataVisualization.Charting.Annotation: AutoLayout, An
     get_SelectionPointsStyle(): PrivateScope, Assembly, Virtual, HideBySig, VtableLayoutMask, CheckAccessOnOverride, SpecialName
     get_Visible(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_Visible(Boolean): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_Alignment(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_Alignment(ContentAlignment): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_ForeColor(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_Alignment(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_ForeColor(Color): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_Font(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_ForeColor(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_Font(Font): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_Font(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_TextStyle(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_TextStyle(TextStyle): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_LineColor(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_LineColor(Color): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_LineWidth(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_LineWidth(Int32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_LineWidth(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_LineDashStyle(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_LineDashStyle(ChartDashStyle): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_BackColor(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_BackColor(Color): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_BackColor(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_BackHatchStyle(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_BackHatchStyle(ChartHatchStyle): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_BackGradientStyle(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_BackGradientStyle(GradientStyle): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_BackSecondaryColor(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_BackSecondaryColor(Color): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_BackSecondaryColor(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_ShadowColor(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_ShadowColor(Color): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_ShadowOffset(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_ShadowOffset(Int32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_AxisXName(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AxisXName(String): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_AxisXName(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_AxisYName(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AxisYName(String): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_YAxisName(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_YAxisName(String): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_AxisX(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AxisX(Axis): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_AxisX(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_AxisY(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AxisY(Axis): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_AnchorDataPointName(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AnchorDataPointName(String): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_AnchorDataPoint(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_AnchorDataPointName(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AnchorDataPoint(DataPoint): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_AnchorX(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_AnchorDataPoint(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AnchorX(Double): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_AnchorX(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_AnchorY(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AnchorY(Double): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_AnchorOffsetX(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AnchorOffsetX(Double): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_AnchorOffsetY(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_AnchorOffsetX(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AnchorOffsetY(Double): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_AnchorOffsetY(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_AnchorAlignment(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AnchorAlignment(ContentAlignment): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_AllowSelecting(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AllowSelecting(Boolean): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_AllowSelecting(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_AllowMoving(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AllowMoving(Boolean): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_AllowAnchorMoving(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AllowAnchorMoving(Boolean): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_AllowResizing(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_AllowAnchorMoving(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AllowResizing(Boolean): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_AllowResizing(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     get_AllowTextEditing(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AllowTextEditing(Boolean): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_AllowPathEditing(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_AllowPathEditing(Boolean): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_ToolTip(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_AllowPathEditing(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     set_ToolTip(String): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_ToolTip(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
     Paint(Chart, ChartGraphics): PrivateScope, Assembly, Virtual, HideBySig, VtableLayoutMask, CheckAccessOnOverride, Abstract
     PaintSelectionHandles(ChartGraphics, RectangleF, GraphicsPath): PrivateScope, Assembly, Virtual, HideBySig, VtableLayoutMask, CheckAccessOnOverride
     ResizeToContent(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask

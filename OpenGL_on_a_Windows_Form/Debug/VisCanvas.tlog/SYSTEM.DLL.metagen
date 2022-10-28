@@ -1756,23 +1756,23 @@ Class System.ComponentModel.BindingList`1[T]: AutoLayout, AnsiClass, Class, Publ
     System.ComponentModel.AddingNewEventHandler AddingNew: 
     System.ComponentModel.ListChangedEventHandler ListChanged: 
   Methods:
-    add_AddingNew(AddingNewEventHandler): PrivateScope, Public, HideBySig, SpecialName
-    remove_AddingNew(AddingNewEventHandler): PrivateScope, Public, HideBySig, SpecialName
-    add_ListChanged(ListChangedEventHandler): PrivateScope, Public, Final, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    remove_ListChanged(ListChangedEventHandler): PrivateScope, Public, Final, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_RaiseListChangedEvents(): PrivateScope, Public, HideBySig, SpecialName
     set_RaiseListChangedEvents(Boolean): PrivateScope, Public, HideBySig, SpecialName
-    ResetBindings(): PrivateScope, Public, HideBySig
-    ResetItem(Int32): PrivateScope, Public, HideBySig
-    CancelNew(Int32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
-    EndNew(Int32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
-    AddNew(): PrivateScope, Public, HideBySig
+    get_RaiseListChangedEvents(): PrivateScope, Public, HideBySig, SpecialName
     get_AllowNew(): PrivateScope, Public, HideBySig, SpecialName
     set_AllowNew(Boolean): PrivateScope, Public, HideBySig, SpecialName
     get_AllowEdit(): PrivateScope, Public, HideBySig, SpecialName
     set_AllowEdit(Boolean): PrivateScope, Public, HideBySig, SpecialName
     get_AllowRemove(): PrivateScope, Public, HideBySig, SpecialName
     set_AllowRemove(Boolean): PrivateScope, Public, HideBySig, SpecialName
+    add_AddingNew(AddingNewEventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_AddingNew(AddingNewEventHandler): PrivateScope, Public, HideBySig, SpecialName
+    add_ListChanged(ListChangedEventHandler): PrivateScope, Public, Final, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    remove_ListChanged(ListChangedEventHandler): PrivateScope, Public, Final, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    ResetBindings(): PrivateScope, Public, HideBySig
+    ResetItem(Int32): PrivateScope, Public, HideBySig
+    CancelNew(Int32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    EndNew(Int32): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
+    AddNew(): PrivateScope, Public, HideBySig
 Class System.ComponentModel.BooleanConverter: AutoLayout, AnsiClass, Class, Public, HasSecurity, BeforeFieldInit
   :System.ComponentModel.TypeConverter
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
@@ -6902,8 +6902,8 @@ Class System.Security.Cryptography.X509Certificates.X509Certificate2Collection: 
   Properties:
     System.Security.Cryptography.X509Certificates.X509Certificate2 Item [Int32] 'get set' : 
   Methods:
-    get_Item(Int32): PrivateScope, Public, HideBySig, SpecialName
     set_Item(Int32, X509Certificate2): PrivateScope, Public, HideBySig, SpecialName
+    get_Item(Int32): PrivateScope, Public, HideBySig, SpecialName
     Add(X509Certificate2): PrivateScope, Public, HideBySig
     AddRange(X509Certificate2[]): PrivateScope, Public, HideBySig
     AddRange(X509Certificate2Collection): PrivateScope, Public, HideBySig
@@ -9595,6 +9595,24 @@ Class System.Net.Security.NegotiateStream: AutoLayout, AnsiClass, Class, Public,
     Int64 Length 'get ' : 
     Int64 Position 'get set' : 
   Methods:
+    get_IsAuthenticated(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_IsMutuallyAuthenticated(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_IsEncrypted(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_IsSigned(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_IsServer(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_ImpersonationLevel(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_RemoteIdentity(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
+    get_CanSeek(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_CanRead(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_CanTimeout(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_CanWrite(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_ReadTimeout(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    set_ReadTimeout(Int32): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    set_WriteTimeout(Int32): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_WriteTimeout(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_Length(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_Position(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    set_Position(Int64): PrivateScope, Public, Virtual, HideBySig, SpecialName
     AuthenticateAsClient(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
     AuthenticateAsClient(NetworkCredential, String): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
     AuthenticateAsClient(NetworkCredential, ChannelBinding, String): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
@@ -9615,24 +9633,6 @@ Class System.Net.Security.NegotiateStream: AutoLayout, AnsiClass, Class, Public,
     BeginAuthenticateAsServer(NetworkCredential, ProtectionLevel, TokenImpersonationLevel, AsyncCallback, Object): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, HasSecurity
     BeginAuthenticateAsServer(NetworkCredential, ExtendedProtectionPolicy, ProtectionLevel, TokenImpersonationLevel, AsyncCallback, Object): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, HasSecurity
     EndAuthenticateAsServer(IAsyncResult): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask
-    get_IsAuthenticated(): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_IsMutuallyAuthenticated(): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_IsEncrypted(): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_IsSigned(): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_IsServer(): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_ImpersonationLevel(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_RemoteIdentity(): PrivateScope, Public, Virtual, HideBySig, VtableLayoutMask, SpecialName
-    get_CanSeek(): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_CanRead(): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_CanTimeout(): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_CanWrite(): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_ReadTimeout(): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    set_ReadTimeout(Int32): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_WriteTimeout(): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    set_WriteTimeout(Int32): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_Length(): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    get_Position(): PrivateScope, Public, Virtual, HideBySig, SpecialName
-    set_Position(Int64): PrivateScope, Public, Virtual, HideBySig, SpecialName
     SetLength(Int64): PrivateScope, Public, Virtual, HideBySig
     Seek(Int64, SeekOrigin): PrivateScope, Public, Virtual, HideBySig
     Flush(): PrivateScope, Public, Virtual, HideBySig

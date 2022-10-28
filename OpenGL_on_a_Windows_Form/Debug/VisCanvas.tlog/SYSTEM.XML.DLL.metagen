@@ -3585,8 +3585,6 @@ Class System.Xml.DocumentXPathNavigator: AutoLayout, AnsiClass, Class, Sealed, B
     System.Xml.Schema.IXmlSchemaInfo SchemaInfo 'get ' : 
     Boolean CanEdit 'get ' : 
   Methods:
-    Clone(): PrivateScope, Public, Virtual, HideBySig
-    SetValue(String): PrivateScope, Public, Virtual, HideBySig
     get_NameTable(): PrivateScope, Public, Virtual, HideBySig, SpecialName
     get_NodeType(): PrivateScope, Public, Virtual, HideBySig, SpecialName
     get_LocalName(): PrivateScope, Public, Virtual, HideBySig, SpecialName
@@ -3599,6 +3597,11 @@ Class System.Xml.DocumentXPathNavigator: AutoLayout, AnsiClass, Class, Sealed, B
     get_XmlLang(): PrivateScope, Public, Virtual, HideBySig, SpecialName
     get_UnderlyingObject(): PrivateScope, Public, Virtual, HideBySig, SpecialName
     get_HasAttributes(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_HasChildren(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_SchemaInfo(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    get_CanEdit(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    Clone(): PrivateScope, Public, Virtual, HideBySig
+    SetValue(String): PrivateScope, Public, Virtual, HideBySig
     GetAttribute(String, String): PrivateScope, Public, Virtual, HideBySig
     MoveToAttribute(String, String): PrivateScope, Public, Virtual, HideBySig
     MoveToFirstAttribute(): PrivateScope, Public, Virtual, HideBySig
@@ -3622,15 +3625,12 @@ Class System.Xml.DocumentXPathNavigator: AutoLayout, AnsiClass, Class, Sealed, B
     MoveToFollowing(XPathNodeType, XPathNavigator): PrivateScope, Public, Virtual, HideBySig
     MoveToNext(String, String): PrivateScope, Public, Virtual, HideBySig
     MoveToNext(XPathNodeType): PrivateScope, Public, Virtual, HideBySig
-    get_HasChildren(): PrivateScope, Public, Virtual, HideBySig, SpecialName
     IsSamePosition(XPathNavigator): PrivateScope, Public, Virtual, HideBySig
     IsDescendant(XPathNavigator): PrivateScope, Public, Virtual, HideBySig
-    get_SchemaInfo(): PrivateScope, Public, Virtual, HideBySig, SpecialName
     CheckValidity(XmlSchemaSet, ValidationEventHandler): PrivateScope, Public, Virtual, HideBySig
     ComparePosition(XPathNavigator): PrivateScope, Public, Virtual, HideBySig
     SelectDescendants(String, String, Boolean): PrivateScope, Public, Virtual, HideBySig
     SelectDescendants(XPathNodeType, Boolean): PrivateScope, Public, Virtual, HideBySig
-    get_CanEdit(): PrivateScope, Public, Virtual, HideBySig, SpecialName
     PrependChild(): PrivateScope, Public, Virtual, HideBySig
     AppendChild(): PrivateScope, Public, Virtual, HideBySig
     InsertAfter(): PrivateScope, Public, Virtual, HideBySig

@@ -676,8 +676,8 @@ Class Microsoft.VisualBasic.FileIO.FileSystem: AutoLayout, AnsiClass, Class, Pub
     System.String CurrentDirectory 'get set' : 
   Methods:
     get_Drives(): PrivateScope, Public, Static, SpecialName
-    get_CurrentDirectory(): PrivateScope, Public, Static, SpecialName
     set_CurrentDirectory(String): PrivateScope, Public, Static, SpecialName
+    get_CurrentDirectory(): PrivateScope, Public, Static, SpecialName
     CombinePath(String, String): PrivateScope, Public, Static
     DirectoryExists(String): PrivateScope, Public, Static
     FileExists(String): PrivateScope, Public, Static
@@ -832,16 +832,16 @@ Class Microsoft.VisualBasic.FileIO.TextFieldParser: AutoLayout, AnsiClass, Class
     set_FieldWidths(Int32[]): PrivateScope, Public, SpecialName
     get_Delimiters(): PrivateScope, Public, SpecialName
     set_Delimiters(String[]): PrivateScope, Public, SpecialName
+    set_TrimWhiteSpace(Boolean): PrivateScope, Public, SpecialName
+    get_TrimWhiteSpace(): PrivateScope, Public, SpecialName
+    get_HasFieldsEnclosedInQuotes(): PrivateScope, Public, SpecialName
+    set_HasFieldsEnclosedInQuotes(Boolean): PrivateScope, Public, SpecialName
     SetDelimiters(String[]): PrivateScope, Public
     SetFieldWidths(Int32[]): PrivateScope, Public
-    get_TrimWhiteSpace(): PrivateScope, Public, SpecialName
-    set_TrimWhiteSpace(Boolean): PrivateScope, Public, SpecialName
     ReadLine(): PrivateScope, Public
     ReadFields(): PrivateScope, Public
     PeekChars(Int32): PrivateScope, Public
     ReadToEnd(): PrivateScope, Public
-    get_HasFieldsEnclosedInQuotes(): PrivateScope, Public, SpecialName
-    set_HasFieldsEnclosedInQuotes(Boolean): PrivateScope, Public, SpecialName
     Close(): PrivateScope, Public
     Dispose(): PrivateScope, Public, Final, Virtual, VtableLayoutMask, CheckAccessOnOverride
 Struct Microsoft.VisualBasic.FileIO.FieldType: AutoLayout, AnsiClass, Class, Public, Sealed

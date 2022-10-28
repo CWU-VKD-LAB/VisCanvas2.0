@@ -193,6 +193,11 @@ Class CppCLRWinformsProjekt.NormalizationStyle: AutoLayout, AnsiClass, Class, Pu
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Methods:
     getStyle(): PrivateScope, Public, HideBySig
+Class CppCLRWinformsProjekt.AccuracyThreshold: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Methods:
+    getThreshold(): PrivateScope, Public, HideBySig
 Class VisCanvas.VisCanvas: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

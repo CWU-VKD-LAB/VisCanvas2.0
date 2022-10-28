@@ -19,6 +19,7 @@ Purpose: CS 481 Project
 #include "NonMonotonicChoice.h"
 #include "UserInputPopUp.h"
 #include "NormalizationStyle.h"
+#include "AccuracyThreshold.h"
 
 namespace VisCanvas {
 
