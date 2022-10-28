@@ -1949,8 +1949,6 @@ void DataInterface::highlightOverlap()
 	selectedSetIndex = 0;
 	vector<int> selectedInstances = vector<int>();
 	vector<SetCluster> blocks = vector<SetCluster>();
-	int temp = getSetAmount();
-	int temp2 = getDimensionAmount();
 
 	for (int i = 0; i < getSetAmount(); i++) // selected instances
 	{
