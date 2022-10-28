@@ -23,7 +23,6 @@
     <RootNamespace>VisCanvas</RootNamespace>
     <Keyword>ManagedCProj</Keyword>
     <ProjectName>VisCanvas</ProjectName>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -260,6 +259,8 @@
     <ClCompile Include="SchemeEditor.cpp" />
     <ClCompile Include="SetCluster.cpp" />
     <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="NormalizationStyle.cpp" />
+    <ClCompile Include="AccuracyThreshold.cpp" />
     <ClCompile Include="VisCanvas.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -289,6 +290,8 @@
     <ClInclude Include="AdditionalSettings.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="AccuracyThreshold.h" />
+    <ClInclude Include="NormalizationStyle.h" />
     <ClInclude Include="IntervalGrouping.h" />
     <ClInclude Include="IntervalGroupStarting.h" />
     <ClInclude Include="KVPair.h" />

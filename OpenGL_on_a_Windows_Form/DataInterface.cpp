@@ -37,6 +37,8 @@ DataInterface::DataInterface() {
 	radius = 0.2;
 	init();
 	finalInit();
+
+	normalizationStyle = 0;
 }
 
 
@@ -640,7 +642,7 @@ void DataInterface::clearArtificialCalibration(int dimensionIndex) {
 	if (dimensionIndex >= dataDimensions.size() || dimensionIndex < 0) {
 		return;
 	}
-	dataDimensions[dimensionIndex]->clearArtificialCalibration();
+	dataDimensions[dimensionIndex]->clearArtificialCalibration(normalizationStyle);
 }
 
 // sets the bounds to be used for artificial calibration at the passed index(dimensionIndex)
@@ -657,7 +659,7 @@ void DataInterface::setCalibrationBounds(int dimensionIndex, double newMaximum, 
 		newMaximum = temp;
 	}
 
-	dataDimensions[dimensionIndex]->setCalibrationBounds(newMaximum, newMinimum);
+	dataDimensions[dimensionIndex]->setCalibrationBounds(newMaximum, newMinimum, normalizationStyle);
 }
 // gets the artificial maximum for the dimension at the passed index(dimensionIndex)
 double DataInterface::getArtificialMaximum(int dimensionIndex) const {
@@ -1088,7 +1090,7 @@ double DataInterface::getMedian(int setIndex) const {
 // calibrate each dimension to the [0,1] space
 void DataInterface::calibrateData() {
 	for (unsigned int i = 0; i < getDimensionAmount(); i++) {
-		(*dataDimensions[i]).calibrateData();
+		(*dataDimensions[i]).calibrateData(normalizationStyle);
 	}
 }
 
@@ -1619,6 +1621,18 @@ int DataInterface::getNominalColor()
 	return nominalColorChoice;
 }
 
+// sets normalization style
+void DataInterface::setNormalizationStyle(int i)
+{
+	normalizationStyle = i;
+}
+
+// gets normalization style
+int DataInterface::getNormalizationStyle()
+{
+	return normalizationStyle;
+}
+
 // gets a list of the sets in the class
 std::vector<int>* DataInterface::getClusterSets(int clusterIndex) {
 	if (clusterIndex < 0 || clusterIndex >= getClusterAmount()) {
@@ -1853,6 +1867,15 @@ bool DataInterface::readBasicFile(std::vector<std::vector<std::string>*>* fileCo
 			startRow = 1; // data starts here
 		}
 
+		// choose normalization style
+		CppCLRWinformsProjekt::NormalizationStyle^ ns = gcnew CppCLRWinformsProjekt::NormalizationStyle();
+		ns->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
+		ns->ShowDialog();
+
+		setNormalizationStyle(ns->getStyle());
+
+		normalizationStyle = ns->getStyle();
+		
 		// create dimensions
 		vector<map<int, std::string>> dimensionsToClean;
 		aboveOne.clear();
@@ -1902,16 +1925,10 @@ bool DataInterface::readBasicFile(std::vector<std::vector<std::string>*>* fileCo
 				dataDimensions[i - off]->setData(j - off, newData);
 			}
 
-			// DISPLAY EMPTY DIMENSION WARNING
-			//if (!hasNum && !displayed_warning) {
-			//	//Display pop up telling user to remove dimensions with empty spots.
-			//	DialogResult result = MessageBox::Show("WARNING: The file you are opening contains one or more dimension with only empty spots. Please consider remiving these dimensions.", "Data contains empty dimension(s)", MessageBoxButtons::OK, MessageBoxIcon::Warning);
-			//	displayed_warning = true;
+			//__debugbreak();
 
-			//}
-
-			dataDimensions[i - off]->calibrateData();
-			originalDataDimensions[i - off]->calibrateData();
+			dataDimensions[i - off]->calibrateData(normalizationStyle);
+			originalDataDimensions[i - off]->calibrateData(normalizationStyle);
 
 			for (int j = 0; j < dimensionsToClean.size(); j++)
 			{
@@ -2129,7 +2146,7 @@ void DataInterface::autoCluster() {
 			bool withinCube = true;
 			for (int k = 0; k < getDimensionAmount(); k++)
 			{
-				if (getData(j, k) < 0 || !(getData(j, k) >= classMin.at(k)/*(classMedian.at(k) - cubeThreshold)*/ && getData(j, k) <= classMax.at(k)/*(classMedian.at(k) + cubeThreshold)*/))
+				if (!(getData(j, k) >= classMin.at(k) && getData(j, k) <= classMax.at(k)))
 				{
 					withinCube = false;
 				}
@@ -2146,7 +2163,7 @@ void DataInterface::autoCluster() {
 		clusterColor.setGreen((*colorConponents)[1]);
 		clusterColor.setBlue((*colorConponents)[2]);
 		clusterColor.setAlpha((*colorConponents)[3]);
-		clusters.push_back(SetCluster(clusterColor, &selectedInstances/*, &dataDimensions*/));
+		clusters.push_back(SetCluster(clusterColor, &selectedInstances));
 		clusters[clusters.size() - 1].setRadius(cubeThreshold);
 		clusters[clusters.size() - 1].setName(dataClasses[i].getName());
 
@@ -2161,12 +2178,18 @@ Make this better. Example 4
 // Actually what creates HBs in most situations.
 string DataInterface::highlightOverlap(double threshold)
 {
+	// get purity threshold
+	CppCLRWinformsProjekt::AccuracyThreshold^ at = gcnew CppCLRWinformsProjekt::AccuracyThreshold();
+	at->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
+	at->ShowDialog();
+
+	double accThreshold = at->getThreshold();
+
 	clusters.clear();
 	pureCubes.clear();
 	selectedSetIndex = 0;
 	totalCubeCount = 0;
 	overlappingCubeCount = 0;
-	double accThreshold = 0.90;
 	selectedSetIndex = 0;
 	vector<int> selectedInstances = vector<int>();
 	vector<SetCluster> blocks = vector<SetCluster>();
@@ -2318,7 +2341,6 @@ string DataInterface::highlightOverlap(double threshold)
 	} while (actionTaken || count > 0);
 
 	// impure
-
 	actionTaken = false;
 	toBeDeleted = set<int>();
 	count = blocks.size();
@@ -2332,7 +2354,7 @@ string DataInterface::highlightOverlap(double threshold)
 		toBeDeleted.clear();
 		actionTaken = false;
 
-		if (blocks.size() <= 0)
+		if (blocks.size() <= 1)
 			break;
 
 		SetCluster temp = blocks.front();
@@ -3436,6 +3458,15 @@ void DataInterface::readCustomFile(std::vector<std::vector<std::string>*>* fileC
 		dataClasses[classIndex].addSet(i - 1);
 	}
 
+	// choose normalization style
+	CppCLRWinformsProjekt::NormalizationStyle^ ns = gcnew CppCLRWinformsProjekt::NormalizationStyle();
+	ns->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
+	ns->ShowDialog();
+
+	setNormalizationStyle(ns->getStyle());
+
+	normalizationStyle = ns->getStyle();
+	
 	// add data structure
 	for (int i = 2; i < (*fileContents)[0]->size(); i++) {
 		Dimension* currentDimension = dataDimensions[i - 2];
@@ -3443,7 +3474,7 @@ void DataInterface::readCustomFile(std::vector<std::vector<std::string>*>* fileC
 			double newData = std::stod((*(*fileContents)[j])[i]);
 			currentDimension->setData(j - 1, newData);
 		}
-		currentDimension->calibrateData();
+		currentDimension->calibrateData(normalizationStyle);
 	}
 
 	for (int i = classSectionAfterLastLine + 1; i < fileContents->size(); i++) {
@@ -3481,7 +3512,7 @@ void DataInterface::parseLine(std::vector<std::string>* lineTokens) {
 			if (dimIndex < 0 || dimIndex >= getDimensionAmount()) {
 				return;
 			}
-			dataDimensions[dimIndex]->setCalibrationBounds(max, min);
+			dataDimensions[dimIndex]->setCalibrationBounds(max, min, normalizationStyle);
 		}
 	}
 	else if ((*lineTokens)[0].compare("original indexes") == 0) {
@@ -3524,7 +3555,7 @@ void DataInterface::parseLine(std::vector<std::string>* lineTokens) {
 			}
 			this->setCalibrationBounds(index, maximum, minimum);
 			if (isCalibrated == false) {
-				this->dataDimensions[index]->clearArtificialCalibration();
+				this->dataDimensions[index]->clearArtificialCalibration(normalizationStyle);
 			}
 		}
 	}

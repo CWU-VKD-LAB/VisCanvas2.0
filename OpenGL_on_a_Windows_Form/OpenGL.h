@@ -292,6 +292,7 @@ namespace OpenGLForm
 			//	eshbp->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Sizable;
 			//	eshbp->Show();
 			//}
+
 		}
 
 		/**
@@ -1465,15 +1466,24 @@ namespace OpenGLForm
 
 					if (this->file->drawBorders() && this->file->getDisplayed(this->file->getSelectedClusterIndex()))
 					{
+
 						std::vector<double>* colorOfCurrent = this->file->getClusterColor(this->file->getDisplayed(this->file->getSelectedClusterIndex()));
 						glColor4d(192.0, 192.0, 192.0, 1.0);
 
 						/* This is the original code to create hyperblocks without empty spots.
 						glBegin(GL_QUAD_STRIP);
-						for (int i = 0; i < this->file->getDimensionAmount(); i++)
+						// from empty spots
+						//for (int i = 0; i < this->file->getDimensionAmount(); i++)
+
+						if (this->file->getDisplayed(this->file->getSelectedClusterIndex()))
 						{
-							if (this->file->getDataDimensions()->at(i)->isVisible())
+							std::vector<double>* colorOfCurrent = this->file->getClusterColor(this->file->getSelectedClusterIndex());
+							glColor4d(192.0, 192.0, 192.0, 1.0);
+
+							glBegin(GL_QUAD_STRIP);
+							for (int i = 0; i < this->file->getDimensionAmount(); i++)
 							{
+                                //From empty spots
 								double currentData = this->file->getClusters().at(file->getSelectedClusterIndex()).getMaximum(i);
 								if(currentData >= 0)
 									glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
@@ -1483,10 +1493,21 @@ namespace OpenGLForm
 									currentData = this->file->getClusters().at(file->getSelectedClusterIndex()).getMinimumPositive(i);
 								}
 								if(currentData >= 0)
+                                //From main
+								if (this->file->getDataDimensions()->at(i)->isVisible())
+								{
+									double currentData = this->file->getClusters().at(file->getSelectedClusterIndex()).getMaximum(i);
 									glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
 
-								dimensionCount++;
+									currentData = this->file->getClusters().at(file->getSelectedClusterIndex()).getMinimum(i);
+                                //end
+									glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
+
+									dimensionCount++;
+								}
 							}
+							glEnd();
+							dimensionCount = 0;
 						}
 						glEnd();
 						dimensionCount = 0;
@@ -1622,6 +1643,7 @@ namespace OpenGLForm
 						*/
 						//.
 						//.
+
 					}
 					dimensionCount = 0;
 

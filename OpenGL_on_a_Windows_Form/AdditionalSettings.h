@@ -144,7 +144,7 @@ namespace VisCanvas {
 				 this->label1->Name = L"label1";
 				 this->label1->Size = System::Drawing::Size(86, 17);
 				 this->label1->TabIndex = 2;
-				 this->label1->Text = L"Threshold:";
+				 this->label1->Text = L"Hypercube Radius:";
 				 // 
 				 // textBox1
 				 // 
@@ -357,8 +357,21 @@ namespace VisCanvas {
 			if (OpenGL->uploadedFile())
 			{
 				std::string *str = toStandardString(this->textBox1->Text);
-				double newRadius = std::stod(*str);
-				OpenGL->file->setRadius(newRadius);
+
+				try
+				{
+					double newRadius = std::stod(*str);
+
+					if (0 <= newRadius && newRadius <= 1)
+						OpenGL->file->setRadius(newRadius);
+					else
+						throw std::invalid_argument("");
+				}
+				catch (std::invalid_argument ia)
+				{
+					this->textBox1->Text = "INVALID INPUT: threshold must be between 0 and 1";
+				}
+
 				delete str;
 			}
 		}

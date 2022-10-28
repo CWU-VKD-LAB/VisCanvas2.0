@@ -302,7 +302,10 @@ public:
 	void setNominalColorChoice(int i);
 	// gets nominal color
 	int getNominalColor();
-
+	// sets normalization style
+	void setNormalizationStyle(int i);
+	// gets normalization style
+	int getNormalizationStyle();
 
 
 	// sets the color for the background
@@ -315,7 +318,9 @@ public:
 
 	// auto create hypercube clusters around classes
 	void autoCluster();
+
 	string highlightOverlap(double threshold);
+
 	void deleteEqualClusters();
 	void combineAdjacentCubes();
 
@@ -471,6 +476,7 @@ private:
 	bool readDimensionNamesBasic;
 	bool readClassNamesBasic;
 	int nominalColorChoice;
+	int normalizationStyle;
 
 
 	// a vector to hold the dimensions containing the data for the sets
@@ -518,8 +524,8 @@ private:
 	bool paintClassColors;
 	// holds the boolean of whether clusters use mean or median
 	bool useMean;
-	double radius;
-	// holds the graph notes
+	double radius = 0.9;
+	// holds the graph notes 
 	std::vector<GraphNote> notes;
 
 	// a field to hold the name of the maximum y value
