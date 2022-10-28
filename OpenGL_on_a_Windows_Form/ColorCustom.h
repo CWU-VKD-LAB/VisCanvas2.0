@@ -15,6 +15,7 @@ class ColorCustom
 public:
 	// create the color
 	ColorCustom();
+	ColorCustom(std::vector<double> comps);
 	// delete the color
 	~ColorCustom();
 	

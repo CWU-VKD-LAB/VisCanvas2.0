@@ -164,12 +164,14 @@ namespace VisCanvas {
 	private: System::Windows::Forms::CheckBox^ maxToggle;
 	private: System::Windows::Forms::CheckBox^ selectorToggle;
 	private: System::Windows::Forms::CheckBox^ backgroundToggle;
+	private: System::Windows::Forms::CheckBox^ isolateCluster;
 
 	private: System::Windows::Forms::Label^ minLabel;
 	private: System::Windows::Forms::Label^ centerLabel;
 	private: System::Windows::Forms::Label^ maxLabel;
 	private: System::Windows::Forms::Label^ selectorLabel;
 	private: System::Windows::Forms::Label^ backgroundLabel;
+    private: System::Windows::Forms::Label^ isolateLabel;
 
 #pragma region Windows Form Designer generated code
 			 /// <summary>
@@ -183,11 +185,13 @@ namespace VisCanvas {
 				 this->maxToggle = (gcnew System::Windows::Forms::CheckBox());
 				 this->selectorToggle = (gcnew System::Windows::Forms::CheckBox());
 				 this->backgroundToggle = (gcnew System::Windows::Forms::CheckBox());
+				 this->isolateCluster = (gcnew System::Windows::Forms::CheckBox());
 				 this->minLabel = (gcnew System::Windows::Forms::Label());
 				 this->centerLabel = (gcnew System::Windows::Forms::Label());
 				 this->maxLabel = (gcnew System::Windows::Forms::Label());
 				 this->selectorLabel = (gcnew System::Windows::Forms::Label());
 				 this->backgroundLabel = (gcnew System::Windows::Forms::Label());
+				 this->isolateLabel = (gcnew System::Windows::Forms::Label());
 				 this->components = (gcnew System::ComponentModel::Container());
 				 System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Settings::typeid));
 				 this->tabPage3 = (gcnew System::Windows::Forms::TabPage());
@@ -586,11 +590,13 @@ namespace VisCanvas {
 				 this->ClusterStats->Controls->Add(this->maxToggle);
 				 this->ClusterStats->Controls->Add(this->selectorToggle);
 				 this->ClusterStats->Controls->Add(this->backgroundToggle);
+				 this->ClusterStats->Controls->Add(this->isolateCluster);
 				 this->ClusterStats->Controls->Add(this->minLabel);
 				 this->ClusterStats->Controls->Add(this->centerLabel);
 				 this->ClusterStats->Controls->Add(this->maxLabel);
 				 this->ClusterStats->Controls->Add(this->selectorLabel);
 				 this->ClusterStats->Controls->Add(this->backgroundLabel);
+				 this->ClusterStats->Controls->Add(this->isolateLabel);
 				 this->ClusterStats->Location = System::Drawing::Point(4, 22);
 				 this->ClusterStats->Name = L"clusterStats";
 				 this->ClusterStats->Padding = System::Windows::Forms::Padding(3);
@@ -697,6 +703,27 @@ namespace VisCanvas {
 				 this->backgroundLabel->TabIndex = 43;
 				 this->backgroundLabel->Text = L"Draw Block Background";
 				 this->backgroundLabel->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+				 //
+				 // Isolate Clusters Toggle
+				 //
+				 this->isolateCluster->AutoSize = true;
+				 this->isolateCluster->Checked = true;
+				 this->isolateCluster->Location = System::Drawing::Point(64, 300);
+				 this->isolateCluster->Name = L"isolateToggle";
+				 this->isolateCluster->Size = System::Drawing::Size(15, 14);
+				 //this->isolateCluster->TabIndex = 40;
+				 this->isolateCluster->UseVisualStyleBackColor = true;
+				 this->isolateCluster->CheckedChanged += gcnew System::EventHandler(this, &Settings::drawing_toggled);
+				 // isolate label
+				 this->isolateLabel->AutoSize = true;
+				 this->isolateLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Bold));
+				 this->isolateLabel->Location = System::Drawing::Point(84, 300);
+				 this->isolateLabel->Name = L"label28";
+				 this->isolateLabel->Size = System::Drawing::Size(35, 15);
+				 //this->isolateLabel->TabIndex = 43;
+				 this->isolateLabel->Text = L"Isolate Clusters";
+				 this->isolateLabel->TextAlign = System::Drawing::ContentAlignment::MiddleRight;
+
 				 // 
 				 // stats list
 				 // 
@@ -2067,6 +2094,8 @@ namespace VisCanvas {
 			OpenGL->file->setDrawBorders(this->backgroundToggle->Checked);
 			this->backgroundToggle->Checked = OpenGL->file->drawBorders();
 
+			OpenGL->file->setIsolateClusters(this->isolateCluster->Checked);
+			this->isolateCluster->Checked = OpenGL->file->isolateClusters();
 
 	}
 

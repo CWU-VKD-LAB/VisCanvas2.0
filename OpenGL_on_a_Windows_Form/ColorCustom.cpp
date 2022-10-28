@@ -16,6 +16,15 @@ ColorCustom::ColorCustom() {
 	copyColorComponents.push_back(1.0);
 }
 
+ColorCustom::ColorCustom(std::vector<double> comps) {
+	colorComponents = std::vector<double>();
+	copyColorComponents = std::vector<double>();
+	for (double i : comps) {
+		colorComponents.push_back(i);
+		copyColorComponents.push_back(i);
+	}
+}
+
 // delete the color
 ColorCustom::~ColorCustom() {
 }

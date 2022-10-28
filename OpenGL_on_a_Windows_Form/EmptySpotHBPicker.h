@@ -3,8 +3,12 @@
 #include <unordered_map>
 #include <vector>
 #include <list>
+#include <Windows.h>
 #include "SetCluster.h"
-#include "OpenGL.h"
+
+namespace OpenGLForm {
+	ref class COpenGL;
+}
 
 namespace CppCLRWinformsProjekt {
 
@@ -18,8 +22,9 @@ namespace CppCLRWinformsProjekt {
 
 	public ref class EmptySpotHBPicker : public System::Windows::Forms::Form
 	{
-	public: EmptySpotHBPicker(/*System::Object^ sender,*/ vector<SetCluster> hbs, vector<vector<double>> es, string* eshbs)
+	public: EmptySpotHBPicker(OpenGLForm::COpenGL^ sender, vector<SetCluster> hbs, vector<vector<double>> es, string* eshbs)
 	{
+		parent = sender;
 		blocks = new vector<SetCluster>();
 		for (int i = 0; i < hbs.size(); i++) {
 			blocks->push_back(hbs[i]);
@@ -83,7 +88,7 @@ namespace CppCLRWinformsProjekt {
 		   //Get rid of file selection and ordering buttons
 		   //Display hyperblocks
 	private: String^ path;
-
+	private: OpenGLForm::COpenGL^ parent;
 #pragma region 
 		   void InitializeComponent(void)
 		   {
@@ -225,8 +230,8 @@ namespace CppCLRWinformsProjekt {
 	private:
 		System::Void drawTables();
 	private: System::Void submitButton_Click(System::Object^ sender, System::EventArgs^ e);
-	private: System::Void submit(System::String^ column);
-	private: System::Void visualize(System::String^ column);
+	private: System::Void submit(OpenGLForm::COpenGL^ sender);// , std::vector<int> eshbs);
+	private: System::Void visualize(OpenGLForm::COpenGL^ sender);
 	private: System::Void visualizeButton_Click(System::Object^ sender, System::EventArgs^ e);
 	};
 }

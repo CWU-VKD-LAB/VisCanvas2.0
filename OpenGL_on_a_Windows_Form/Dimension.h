@@ -32,7 +32,7 @@ public:
 	// set the index of the the dimension, and returns the old index
 	int setOriginalIndex(int newIndex);
 	// calibrate the data to the [0,1] space
-	void calibrateData(int style);
+	void calibrateData();
 	// gets the data for the set of the passed index(dataIndex)
 	double getData(int dataIndex) const;
 	// gets the data calibrated, but not inverted or shifted data for the set of the passed index(dataIndex)
@@ -70,9 +70,9 @@ public:
 	// returns whether there is artificial calibration or not
 	bool isArtificiallyCalibrated();
 	// sets the calibration to use the data's(not the artificial) maximum and minimum
-	void clearArtificialCalibration(int style);
+	void clearArtificialCalibration();
 	// sets the bounds to be used for artificial calibration
-	void setCalibrationBounds(double newMaximum, double newMinimum, int style);
+	void setCalibrationBounds(double newMaximum, double newMinimum);
 	// gets the artificial maximum
 	double getArtificialMaximum() const;
 	// gets the artificial minimum

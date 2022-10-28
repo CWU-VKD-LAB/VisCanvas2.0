@@ -276,6 +276,8 @@ public:
 	int getClusterAmount();
 	// get set clusters
 	std::vector<SetCluster> getClusters();
+	// set Clusters
+	void setClusters(std::vector<SetCluster> newClusters);
 	// the minimum value for the cluster data
 	double getClusterMinimum(int clusterIndex, int dimensionIndex) const;
 	// the mean value for the cluster data
@@ -302,10 +304,7 @@ public:
 	void setNominalColorChoice(int i);
 	// gets nominal color
 	int getNominalColor();
-	// sets normalization style
-	void setNormalizationStyle(int i);
-	// gets normalization style
-	int getNormalizationStyle();
+
 
 
 	// sets the color for the background
@@ -318,9 +317,7 @@ public:
 
 	// auto create hypercube clusters around classes
 	void autoCluster();
-
 	string highlightOverlap(double threshold);
-
 	void deleteEqualClusters();
 	void combineAdjacentCubes();
 
@@ -332,6 +329,9 @@ public:
 
 	bool drawBorders();
 	void setDrawBorders(bool drawBorders);
+	
+	bool isolateClusters();
+	void setIsolateClusters(bool isolateClusters);
 
 	void identicalCubes(set<int> * classesInCube, vector<int> * selectedInstances);
 	void createAutoCube(set<int> * classesInCube, vector<int> * selectedInstances, double threshold, int i);
@@ -431,6 +431,13 @@ public:
 	map<string, double> getAboveOne();
 	bool hasEmpty();
 	vector<vector<double>> getEmptys();
+	bool updateClusters(vector<int> eshbs);
+	// List of selected HBs for ESs
+	std::vector<int> esHBs;
+	bool visualizeClusters(vector<int> eshbs);
+
+	bool copyClusters();
+	bool resetClusters();
 	
 private:
 	
@@ -476,7 +483,6 @@ private:
 	bool readDimensionNamesBasic;
 	bool readClassNamesBasic;
 	int nominalColorChoice;
-	int normalizationStyle;
 
 
 	// a vector to hold the dimensions containing the data for the sets
@@ -508,6 +514,7 @@ private:
 
 	bool hideSelectorLine;
 	bool isDrawBorders;
+	bool isIsolateClusters;
 	bool drawMin;
 	bool drawCenter;
 	bool drawMax;
@@ -518,14 +525,16 @@ private:
 
 	// holds the clusters of the data
 	std::vector<SetCluster> clusters;
+	// holds a copy of clusters when necessary
+	std::vector<SetCluster> cpyClusters;
 	// holds the boolean of whether to paint the cluster or not
 	bool paintClusters;
 	// holds the boolean of whether to use class colors or hypercube colors when painting clusters 
 	bool paintClassColors;
 	// holds the boolean of whether clusters use mean or median
 	bool useMean;
-	double radius = 0.9;
-	// holds the graph notes 
+	double radius;
+	// holds the graph notes
 	std::vector<GraphNote> notes;
 
 	// a field to hold the name of the maximum y value

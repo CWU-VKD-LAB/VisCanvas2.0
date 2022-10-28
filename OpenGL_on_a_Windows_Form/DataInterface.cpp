@@ -37,8 +37,6 @@ DataInterface::DataInterface() {
 	radius = 0.2;
 	init();
 	finalInit();
-
-	normalizationStyle = 0;
 }
 
 
@@ -226,6 +224,10 @@ bool DataInterface::saveToFile(std::string * filePath) {
 	// put default class color in
 	std::vector<double>* defaultClassColor = getClassColor(0);
 	saveFile << "Default Class Color,";
+	//for (int i = 0; i < *defaultClassColor; i++) {
+	//	saveFile << (*defaultClassColor)[i] << ",";
+	//}
+	//saveFile << (*defaultClassColor)[getDimensionAmount()-1] << "\n";
 	saveFile << (*defaultClassColor)[0] << ",";
 	saveFile << (*defaultClassColor)[1] << ",";
 	saveFile << (*defaultClassColor)[2] << ",";
@@ -284,7 +286,7 @@ bool DataInterface::saveToFile(std::string * filePath) {
 	}
 
 	if (!emptys.empty()) {
-		// Fills in data for each dimension for each empty spot set
+		 //Fills in data for each dimension for each empty spot set
 		//for (int i = 0; i < getDimensionAmount(); i++) {
 		//	for (int j = 0; j < emptys.size(); j++) {
 		//		emptys[j].push_back(this->dataDimensions[i]->getData(emptys[j][0]));
@@ -419,6 +421,9 @@ bool DataInterface::saveToFile(std::string * filePath) {
 			}
 
 			saveFile << esHBs;
+		}
+		else {
+
 		}
 	}
 
@@ -642,7 +647,7 @@ void DataInterface::clearArtificialCalibration(int dimensionIndex) {
 	if (dimensionIndex >= dataDimensions.size() || dimensionIndex < 0) {
 		return;
 	}
-	dataDimensions[dimensionIndex]->clearArtificialCalibration(normalizationStyle);
+	dataDimensions[dimensionIndex]->clearArtificialCalibration();
 }
 
 // sets the bounds to be used for artificial calibration at the passed index(dimensionIndex)
@@ -659,7 +664,7 @@ void DataInterface::setCalibrationBounds(int dimensionIndex, double newMaximum, 
 		newMaximum = temp;
 	}
 
-	dataDimensions[dimensionIndex]->setCalibrationBounds(newMaximum, newMinimum, normalizationStyle);
+	dataDimensions[dimensionIndex]->setCalibrationBounds(newMaximum, newMinimum);
 }
 // gets the artificial maximum for the dimension at the passed index(dimensionIndex)
 double DataInterface::getArtificialMaximum(int dimensionIndex) const {
@@ -1090,7 +1095,7 @@ double DataInterface::getMedian(int setIndex) const {
 // calibrate each dimension to the [0,1] space
 void DataInterface::calibrateData() {
 	for (unsigned int i = 0; i < getDimensionAmount(); i++) {
-		(*dataDimensions[i]).calibrateData(normalizationStyle);
+		(*dataDimensions[i]).calibrateData();
 	}
 }
 
@@ -1531,6 +1536,10 @@ std::vector<SetCluster> DataInterface::getClusters() {
 	return clusters;
 }
 
+void DataInterface::setClusters(std::vector<SetCluster> newClusters) {
+	clusters = newClusters;
+}
+
 // get displayed of cluster at index
 bool DataInterface::getDisplayed(int index) {
 	return clusters[index].isDisplayed();
@@ -1619,18 +1628,6 @@ void DataInterface::setNominalColorChoice(int i)
 int DataInterface::getNominalColor()
 {
 	return nominalColorChoice;
-}
-
-// sets normalization style
-void DataInterface::setNormalizationStyle(int i)
-{
-	normalizationStyle = i;
-}
-
-// gets normalization style
-int DataInterface::getNormalizationStyle()
-{
-	return normalizationStyle;
 }
 
 // gets a list of the sets in the class
@@ -1867,15 +1864,6 @@ bool DataInterface::readBasicFile(std::vector<std::vector<std::string>*>* fileCo
 			startRow = 1; // data starts here
 		}
 
-		// choose normalization style
-		CppCLRWinformsProjekt::NormalizationStyle^ ns = gcnew CppCLRWinformsProjekt::NormalizationStyle();
-		ns->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
-		ns->ShowDialog();
-
-		setNormalizationStyle(ns->getStyle());
-
-		normalizationStyle = ns->getStyle();
-		
 		// create dimensions
 		vector<map<int, std::string>> dimensionsToClean;
 		aboveOne.clear();
@@ -1925,10 +1913,16 @@ bool DataInterface::readBasicFile(std::vector<std::vector<std::string>*>* fileCo
 				dataDimensions[i - off]->setData(j - off, newData);
 			}
 
-			//__debugbreak();
+			// DISPLAY EMPTY DIMENSION WARNING
+			//if (!hasNum && !displayed_warning) {
+			//	//Display pop up telling user to remove dimensions with empty spots.
+			//	DialogResult result = MessageBox::Show("WARNING: The file you are opening contains one or more dimension with only empty spots. Please consider remiving these dimensions.", "Data contains empty dimension(s)", MessageBoxButtons::OK, MessageBoxIcon::Warning);
+			//	displayed_warning = true;
 
-			dataDimensions[i - off]->calibrateData(normalizationStyle);
-			originalDataDimensions[i - off]->calibrateData(normalizationStyle);
+			//}
+
+			dataDimensions[i - off]->calibrateData();
+			originalDataDimensions[i - off]->calibrateData();
 
 			for (int j = 0; j < dimensionsToClean.size(); j++)
 			{
@@ -2146,7 +2140,7 @@ void DataInterface::autoCluster() {
 			bool withinCube = true;
 			for (int k = 0; k < getDimensionAmount(); k++)
 			{
-				if (!(getData(j, k) >= classMin.at(k) && getData(j, k) <= classMax.at(k)))
+				if (getData(j, k) < 0 || !(getData(j, k) >= classMin.at(k)/*(classMedian.at(k) - cubeThreshold)*/ && getData(j, k) <= classMax.at(k)/*(classMedian.at(k) + cubeThreshold)*/))
 				{
 					withinCube = false;
 				}
@@ -2163,7 +2157,7 @@ void DataInterface::autoCluster() {
 		clusterColor.setGreen((*colorConponents)[1]);
 		clusterColor.setBlue((*colorConponents)[2]);
 		clusterColor.setAlpha((*colorConponents)[3]);
-		clusters.push_back(SetCluster(clusterColor, &selectedInstances));
+		clusters.push_back(SetCluster(clusterColor, &selectedInstances/*, &dataDimensions*/));
 		clusters[clusters.size() - 1].setRadius(cubeThreshold);
 		clusters[clusters.size() - 1].setName(dataClasses[i].getName());
 
@@ -2178,18 +2172,17 @@ Make this better. Example 4
 // Actually what creates HBs in most situations.
 string DataInterface::highlightOverlap(double threshold)
 {
-	// get purity threshold
-	CppCLRWinformsProjekt::AccuracyThreshold^ at = gcnew CppCLRWinformsProjekt::AccuracyThreshold();
-	at->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
-	at->ShowDialog();
-
-	double accThreshold = at->getThreshold();
-
 	clusters.clear();
 	pureCubes.clear();
 	selectedSetIndex = 0;
 	totalCubeCount = 0;
 	overlappingCubeCount = 0;
+	/*
+		Threshold for how pure the HBs are, 1 is pure, 0 is very impure. Was set at .9
+		|
+		v
+	*/
+	double accThreshold = 1;
 	selectedSetIndex = 0;
 	vector<int> selectedInstances = vector<int>();
 	vector<SetCluster> blocks = vector<SetCluster>();
@@ -2341,6 +2334,7 @@ string DataInterface::highlightOverlap(double threshold)
 	} while (actionTaken || count > 0);
 
 	// impure
+
 	actionTaken = false;
 	toBeDeleted = set<int>();
 	count = blocks.size();
@@ -2354,7 +2348,7 @@ string DataInterface::highlightOverlap(double threshold)
 		toBeDeleted.clear();
 		actionTaken = false;
 
-		if (blocks.size() <= 1)
+		if (blocks.size() <= 0)
 			break;
 
 		SetCluster temp = blocks.front();
@@ -2571,9 +2565,9 @@ string DataInterface::highlightOverlap(double threshold)
 		clusters[i].setName(&name);
 	}
 
+	copyClusters();
 
-
-	//Do this after updating for ES-cases
+	//Do this after updating for ES-cases?
 	paintClusters = true;
 
 
@@ -2663,9 +2657,9 @@ string DataInterface::highlightOverlap(double threshold)
 		}
 		//return string if emtpys else return ""
 		//Prompt user for inclusion of empty spots in hyper blocks
-		CppCLRWinformsProjekt::EmptySpotHBPicker^ eshbp = gcnew CppCLRWinformsProjekt::EmptySpotHBPicker(clusters, emptys, &esHBs);
-		eshbp->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Sizable;
-		eshbp->Show();
+		//CppCLRWinformsProjekt::EmptySpotHBPicker^ eshbp = gcnew CppCLRWinformsProjekt::EmptySpotHBPicker(clusters, emptys, &esHBs);
+		//eshbp->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Sizable;
+		//eshbp->Show();
 
 		//OpenGL->file->setNominalColorChoice(ncp->getResult());
 		return esHBs;
@@ -3228,6 +3222,14 @@ void DataInterface::setDrawBorders(bool drawBorders) {
 	this->isDrawBorders = drawBorders;
 }
 
+bool DataInterface::isolateClusters() {
+	return isIsolateClusters;
+}
+
+void DataInterface::setIsolateClusters(bool isolateClusters) {
+	this->isIsolateClusters = isolateClusters;
+}
+
 void DataInterface::combineAdjacentCubes() {
 	int size = clusters.size();
 
@@ -3458,15 +3460,6 @@ void DataInterface::readCustomFile(std::vector<std::vector<std::string>*>* fileC
 		dataClasses[classIndex].addSet(i - 1);
 	}
 
-	// choose normalization style
-	CppCLRWinformsProjekt::NormalizationStyle^ ns = gcnew CppCLRWinformsProjekt::NormalizationStyle();
-	ns->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedDialog;
-	ns->ShowDialog();
-
-	setNormalizationStyle(ns->getStyle());
-
-	normalizationStyle = ns->getStyle();
-	
 	// add data structure
 	for (int i = 2; i < (*fileContents)[0]->size(); i++) {
 		Dimension* currentDimension = dataDimensions[i - 2];
@@ -3474,7 +3467,7 @@ void DataInterface::readCustomFile(std::vector<std::vector<std::string>*>* fileC
 			double newData = std::stod((*(*fileContents)[j])[i]);
 			currentDimension->setData(j - 1, newData);
 		}
-		currentDimension->calibrateData(normalizationStyle);
+		currentDimension->calibrateData();
 	}
 
 	for (int i = classSectionAfterLastLine + 1; i < fileContents->size(); i++) {
@@ -3512,7 +3505,7 @@ void DataInterface::parseLine(std::vector<std::string>* lineTokens) {
 			if (dimIndex < 0 || dimIndex >= getDimensionAmount()) {
 				return;
 			}
-			dataDimensions[dimIndex]->setCalibrationBounds(max, min, normalizationStyle);
+			dataDimensions[dimIndex]->setCalibrationBounds(max, min);
 		}
 	}
 	else if ((*lineTokens)[0].compare("original indexes") == 0) {
@@ -3555,7 +3548,7 @@ void DataInterface::parseLine(std::vector<std::string>* lineTokens) {
 			}
 			this->setCalibrationBounds(index, maximum, minimum);
 			if (isCalibrated == false) {
-				this->dataDimensions[index]->clearArtificialCalibration(normalizationStyle);
+				this->dataDimensions[index]->clearArtificialCalibration();
 			}
 		}
 	}
@@ -4480,7 +4473,6 @@ map<std::string, double> DataInterface::getAboveOne() {
 
 bool DataInterface::hasEmpty()
 {
-	return false;
 	return aboveOne.size() > 0;
 }
 
@@ -4498,4 +4490,81 @@ std::vector<std::vector<double>> DataInterface::getEmptys() {
 		}
 	}
 	return emptys;
+}
+
+bool DataInterface::updateClusters(vector<int> eshbs) {
+	std::vector<std::vector<double>> es = getEmptys();
+	boolean altered = false;
+	for (int i = 0; i < eshbs.size(); i++) {
+		if (eshbs[i] >= 0) {
+			if (clusters[eshbs[i]].addSet(es[i][0])) {
+				clusters[eshbs[i]].calculateValues(&dataDimensions);
+				altered = true;
+			}
+		}
+	}
+	return altered;
+}
+
+bool DataInterface::visualizeClusters(vector<int> eshbs) {
+	resetClusters();
+	esHBs = std::vector<int>();
+	
+	boolean altered = updateClusters(eshbs);
+	
+	for (int i : eshbs) {
+		esHBs.push_back(i);
+	}
+	//if (altered) {
+	//	std::vector<std::vector<double>> es = getEmptys();
+	//	for (int i = 0; i < eshbs.size(); i++) {
+	//		if (eshbs[i] >= 0) {
+	//			if (clusters[eshbs[i]].removeSet(es[i][0])) {
+	//				clusters[eshbs[i]].calculateValues(&dataDimensions);
+	//			}
+	//		}
+	//	}
+	//}
+	return altered;
+}
+
+bool DataInterface::copyClusters() {
+	bool hadValue = false;
+	if (cpyClusters.size() > 0)
+		hadValue = true;
+
+	cpyClusters = std::vector<SetCluster>();
+	for (int i = 0; i < clusters.size(); i++) {
+		ColorCustom c = ColorCustom(*clusters[i].getColor());
+		SetCluster temp = SetCluster(c, clusters[i].getSets(), getDataDimensions());
+		temp.setRadius(clusters[i].getRadius());
+		temp.setDisplayed(clusters[i].isDisplayed());
+		temp.setUseMean(clusters[i].isUseMean());
+		temp.setName(clusters[i].getName());
+		temp.setClass(clusters[i].getClass());
+		temp.setMajority(clusters[i].getMajority(), clusters[i].getMajorityCount());
+		temp.calculateValues(getDataDimensions());
+		cpyClusters.push_back(temp);
+	}
+	return hadValue;
+}
+
+bool DataInterface::resetClusters() {
+	if (cpyClusters.size() > 0) {
+		clusters = std::vector<SetCluster>();
+		for (int i = 0; i < cpyClusters.size(); i++) {
+			ColorCustom c = ColorCustom(*cpyClusters[i].getColor());
+			SetCluster temp = SetCluster(c, cpyClusters[i].getSets(), getDataDimensions());
+			temp.setRadius(cpyClusters[i].getRadius());
+			temp.setDisplayed(cpyClusters[i].isDisplayed());
+			temp.setUseMean(cpyClusters[i].isUseMean());
+			temp.setName(cpyClusters[i].getName());
+			temp.setClass(cpyClusters[i].getClass());
+			temp.setMajority(cpyClusters[i].getMajority(), cpyClusters[i].getMajorityCount());
+			temp.calculateValues(getDataDimensions());
+			clusters.push_back(temp);
+		}
+		return true;
+	}
+	return false;
 }

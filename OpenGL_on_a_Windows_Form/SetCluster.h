@@ -99,9 +99,10 @@ public:
 
 	int getClass();
 	int getMajority();
+	int getMajorityCount();
 	void setClass(int oClass);
 	void setMajority(int mClass, int cnt);
-	void setMajority(int mClass);
+	//void setMajority(int mClass);
 	double getPurity();
 
 private:

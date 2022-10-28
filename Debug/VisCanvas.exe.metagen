@@ -28,10 +28,6 @@ Assembly UIAutomationProvider, Version=4.0.0.0, Culture=neutral, PublicKeyToken=
 	hash=None, flags=None
 Assembly UIAutomationTypes, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35: 
 	hash=None, flags=None
-Assembly Interop.AcroPDFLib.1.0, Version=1.0.*, Culture=Invariant Language (Invariant Country): 
-	hash=None, flags=None
-Assembly AxInterop.AcroPDFLib.1.0, Version=1.0.*, Culture=Invariant Language (Invariant Country): 
-	hash=None, flags=None
 Assembly Microsoft.VisualC.STLCLR, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
 	hash=None, flags=None
 Class CppCLRWinformsProjekt.ClassScheme: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
@@ -66,7 +62,7 @@ Struct DNSRule: AutoLayout, AnsiClass, Class, Public, SequentialLayout, Sealed, 
   :System.ValueType
 Class CppCLRWinformsProjekt.EmptySpotHBPicker: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
-    Void .ctor(std.vector<SetCluster\,std::allocator<SetCluster> >*, std.vector<std::vector<double\,std::allocator<double> >\,std::allocator<std::vector<double\,std::allocator<double> > > >*, std.basic_string<char\,std::char_traits<char>\,std::allocator<char> >*): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+    Void .ctor(OpenGLForm.COpenGL, std.vector<SetCluster\,std::allocator<SetCluster> >*, std.vector<std::vector<double\,std::allocator<double> >\,std::allocator<std::vector<double\,std::allocator<double> > > >*, std.basic_string<char\,std::char_traits<char>\,std::allocator<char> >*): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
 Class OpenGLForm.COpenGL: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.NativeWindow
     Void .ctor(System.Windows.Forms.Form, Int32, Int32): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
@@ -75,6 +71,7 @@ Class OpenGLForm.COpenGL: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   Fields:
     DataInterface* file : Public
   Methods:
+    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig
     SetFilePath(basic_string<char\,std::char_traits<char>\,std::allocator<char> >*): PrivateScope, Public, HideBySig
     incrementSelectedSet(): PrivateScope, Public, HideBySig
     incrementSelectedSetIndexCluster(): PrivateScope, Public, HideBySig
@@ -90,6 +87,7 @@ Class OpenGLForm.COpenGL: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     toggleClassColors(): PrivateScope, Public, HideBySig
     getClusters(vector<SetCluster\,std::allocator<SetCluster> >*): PrivateScope, Public, HideBySig
     autoCluster(): PrivateScope, Public, HideBySig
+    updateEmptys(Int32, vector<int\,std::allocator<int> >*): PrivateScope, Public, HideBySig
     getDisplayed(Int32): PrivateScope, Public, HideBySig
     getWorldWidth(): PrivateScope, Public, HideBySig
     getWorldHeight(): PrivateScope, Public, HideBySig
@@ -151,7 +149,6 @@ Class OpenGLForm.COpenGL: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     generateRulesDNS(): PrivateScope, Public, HideBySig
     DNScalculateLinePosition(): PrivateScope, Public, HideBySig
     visualizeDomNomVisualization(): PrivateScope, Public, HideBySig
-    Dispose(): PrivateScope, Public, Final, Virtual, HideBySig
 Class VisCanvas.AdditionalSettings: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(OpenGLForm.COpenGL): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
@@ -195,16 +192,6 @@ Class CppCLRWinformsProjekt.NonMonotonicChoice: AutoLayout, AnsiClass, Class, Pu
     getSplitRightCord(): PrivateScope, Public, HideBySig
     getiInflictionBool(): PrivateScope, Public, HideBySig
     getiInflictionKind(): PrivateScope, Public, HideBySig
-Class CppCLRWinformsProjekt.NormalizationStyle: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
-  :System.Windows.Forms.Form
-    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
-  Methods:
-    getStyle(): PrivateScope, Public, HideBySig
-Class CppCLRWinformsProjekt.AccuracyThreshold: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
-  :System.Windows.Forms.Form
-    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
-  Methods:
-    getThreshold(): PrivateScope, Public, HideBySig
 Class VisCanvas.VisCanvas: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

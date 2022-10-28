@@ -513,6 +513,10 @@ int SetCluster::getMajority() {
 	return this->majorityClass;
 }
 
+int SetCluster::getMajorityCount() {
+	return this->majorityCount;
+}
+
 void SetCluster::setClass(int oClass) {
 	this->originalClass = oClass;
 }

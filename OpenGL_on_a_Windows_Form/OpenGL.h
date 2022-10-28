@@ -16,6 +16,7 @@ Purpose: CS 481 Project
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <utility>
+#include <stdexcept>
 
 //using namespace CppCLRWinformsProjekt;
 
@@ -116,7 +117,6 @@ namespace OpenGLForm
 			catch (...) {
 				// display an error message
 				DialogResult result = MessageBox::Show("WARNING: VisCanvas is unable to open the file. Click 'Retry' to try again.", "Trouble Opening File", MessageBoxButtons::RetryCancel, MessageBoxIcon::Warning);
-				this->uploadFile = false;
 				if (result == DialogResult::Retry)
 				{
 					return true; // reopen the file dialog
@@ -286,13 +286,33 @@ namespace OpenGLForm
 			
 			string esHBs = this->file->highlightOverlap(0.0);
 			//Maybe move the EmptySpotHBPicker call here?
-			//if ((*file).hasEmpty()) {
-			//	//using namespace CppCLRWinformsProjekt;
-			//	EmptySpotHBPicker^ eshbp = gcnew EmptySpotHBPicker(file->getClusters(), file->getEmptys(), &esHBs);
-			//	eshbp->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Sizable;
-			//	eshbp->Show();
-			//}
+			if ((*file).hasEmpty()) {
+				using namespace CppCLRWinformsProjekt;
+				EmptySpotHBPicker^ eshbp = gcnew EmptySpotHBPicker(this, file->getClusters(), file->getEmptys(), &esHBs);
+				eshbp->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Sizable;
+				eshbp->Show();
+			}
+		}
 
+		System::Void updateEmptys(int submit, vector<int> newesHBs) {
+			if (submit == 1) { //Visualize
+				//file->copyClusters();
+				if (file->visualizeClusters(newesHBs)) {
+					//file->esHBs = newesHBs;
+					drawData();
+					glFlush();
+				}
+				//file->resetClusters();
+
+			}else{ // Submit
+				file->resetClusters();
+				file->esHBs.clear();
+				if (file->updateClusters(newesHBs)) {
+					drawData();
+					glFlush();
+				}
+				file->copyClusters();
+			}
 		}
 
 		/**
@@ -1425,40 +1445,42 @@ namespace OpenGLForm
 
 				if (this->file->isPaintClusters()) {
 
-					for (int j = 0; j < this->file->getClusterAmount(); j++)
-					{
-						std::vector<double>* colorOfCurrent = this->file->getClusterColor(j);
-						glColor4d((*colorOfCurrent)[0], (*colorOfCurrent)[1], (*colorOfCurrent)[2], /*0.3*/(*colorOfCurrent)[3]);
-						glColor4d(192.0, 192.0, 192.0, 0.01);
-
-						// draw cubes
-						for (int k = 0; k < this->file->getClusterSets(j)->size(); k++)
+					if (!this->file->isolateClusters()) {
+						for (int j = 0; j < this->file->getClusterAmount(); j++)
 						{
-							if (this->file->getDisplayed(j))
+							std::vector<double>* colorOfCurrent = this->file->getClusterColor(j);
+							glColor4d((*colorOfCurrent)[0], (*colorOfCurrent)[1], (*colorOfCurrent)[2], /*0.3*/(*colorOfCurrent)[3]);
+							glColor4d(192.0, 192.0, 192.0, 0.01);
+
+							// draw cubes
+							for (int k = 0; k < this->file->getClusterSets(j)->size(); k++)
 							{
-								int currentIndex = this->file->getClusterSets(j)->at(k);
-
-								glBegin(GL_LINE_STRIP);
-								for (int i = 0; i < this->file->getDimensionAmount(); i++)
+								if (this->file->getDisplayed(j))
 								{
-									if (this->file->isPaintClassColors())
-									{
-										std::vector<double>* colorOfCurrent = this->file->getSetColor(currentIndex);
-										glColor4d((*colorOfCurrent)[0], (*colorOfCurrent)[1], (*colorOfCurrent)[2], (*colorOfCurrent)[3]);
-									}
+									int currentIndex = this->file->getClusterSets(j)->at(k);
 
-									if (this->file->getDataDimensions()->at(i)->isVisible())
+									glBegin(GL_LINE_STRIP);
+									for (int i = 0; i < this->file->getDimensionAmount(); i++)
 									{
-										double currentData = this->file->getData(currentIndex, i);
-										glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
-										dimensionCount++;
+										if (this->file->isPaintClassColors())
+										{
+											std::vector<double>* colorOfCurrent = this->file->getSetColor(currentIndex);
+											glColor4d((*colorOfCurrent)[0], (*colorOfCurrent)[1], (*colorOfCurrent)[2], (*colorOfCurrent)[3]);
+										}
+
+										if (this->file->getDataDimensions()->at(i)->isVisible())
+										{
+											double currentData = this->file->getData(currentIndex, i);
+											glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
+											dimensionCount++;
+										}
 									}
+									glEnd();
+									dimensionCount = 0;
 								}
-								glEnd();
-								dimensionCount = 0;
 							}
-						}
-					} // end hyper block loop
+						} // end hyper block loop
+					}
 					dimensionCount = 0;
 
 					// re-draw selected cluster border on top
@@ -1466,24 +1488,15 @@ namespace OpenGLForm
 
 					if (this->file->drawBorders() && this->file->getDisplayed(this->file->getSelectedClusterIndex()))
 					{
-
-						std::vector<double>* colorOfCurrent = this->file->getClusterColor(this->file->getDisplayed(this->file->getSelectedClusterIndex()));
+						//std::vector<double>* colorOfCurrent = this->file->getClusterColor(this->file->getDisplayed(this->file->getSelectedClusterIndex()));
 						glColor4d(192.0, 192.0, 192.0, 1.0);
 
 						/* This is the original code to create hyperblocks without empty spots.
 						glBegin(GL_QUAD_STRIP);
-						// from empty spots
-						//for (int i = 0; i < this->file->getDimensionAmount(); i++)
-
-						if (this->file->getDisplayed(this->file->getSelectedClusterIndex()))
+						for (int i = 0; i < this->file->getDimensionAmount(); i++)
 						{
-							std::vector<double>* colorOfCurrent = this->file->getClusterColor(this->file->getSelectedClusterIndex());
-							glColor4d(192.0, 192.0, 192.0, 1.0);
-
-							glBegin(GL_QUAD_STRIP);
-							for (int i = 0; i < this->file->getDimensionAmount(); i++)
+							if (this->file->getDataDimensions()->at(i)->isVisible())
 							{
-                                //From empty spots
 								double currentData = this->file->getClusters().at(file->getSelectedClusterIndex()).getMaximum(i);
 								if(currentData >= 0)
 									glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
@@ -1493,21 +1506,10 @@ namespace OpenGLForm
 									currentData = this->file->getClusters().at(file->getSelectedClusterIndex()).getMinimumPositive(i);
 								}
 								if(currentData >= 0)
-                                //From main
-								if (this->file->getDataDimensions()->at(i)->isVisible())
-								{
-									double currentData = this->file->getClusters().at(file->getSelectedClusterIndex()).getMaximum(i);
 									glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
 
-									currentData = this->file->getClusters().at(file->getSelectedClusterIndex()).getMinimum(i);
-                                //end
-									glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
-
-									dimensionCount++;
-								}
+								dimensionCount++;
 							}
-							glEnd();
-							dimensionCount = 0;
 						}
 						glEnd();
 						dimensionCount = 0;
@@ -1643,7 +1645,6 @@ namespace OpenGLForm
 						*/
 						//.
 						//.
-
 					}
 					dimensionCount = 0;
 
@@ -1940,14 +1941,39 @@ namespace OpenGLForm
 						{
 							double currentData = this->file->getData(selectedSetIndex, i);
 							glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
-				
+
 							dimensionCount++;
 						}
 					}
 					glEnd(); // ends drawing line
 					dimensionCount = 0;
 				}
+				// Draws selected empty spot cases in blue
+				if (file->esHBs.size() > 0) {
+					int selectedClusterIndex = file->getSelectedClusterIndex();
+					for (int j = 0; j < file->esHBs.size(); j++) {
+						//int selectedSetIndex = file->getSelectedSetIndex();
+						//std::vector<double>* colorOfCurrent = this->file->getSetColor(selectedSetIndex);
+						//glColor4d((*colorOfCurrent)[0], (*colorOfCurrent)[1], (*colorOfCurrent)[2], (*colorOfCurrent)[3]);
+						if (file->esHBs[j] == selectedClusterIndex) {
+							std::vector<std::vector<double>> es = file->getEmptys();
+							glColor4d(0, 0, 255, 255);
+							glBegin(GL_LINE_STRIP); // begins drawing lines
+							for (int i = 0; i < this->file->getDimensionAmount(); i++)
+							{
+								if (this->file->getDataDimensions()->at(i)->isVisible())
+								{
+									double currentData = this->file->getData(es[j][0], i);
+									glVertex2d((-this->worldWidth / 2.0) + ((xAxisIncrement) * (dimensionCount + 1)), (currentData * (this->worldHeight * 0.5)) + (0.175 * this->worldHeight));
 
+									dimensionCount++;
+								}
+							}
+							glEnd(); // ends drawing line
+							dimensionCount = 0;
+						}
+					}
+				}
 
 			}// end if histogram else
 
