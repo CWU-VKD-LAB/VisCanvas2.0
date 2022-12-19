@@ -3713,13 +3713,12 @@ pair<vector<string>, vector<DNSRule>> DomNominalSet::MTBRGSequential(double prec
 
 	allGeneratedRules = combineRulesGenerated(allGeneratedRules, targetClass, numCasesInTarget, precisionThresh);
 
-	//==================Selection Process=========================//
+	// === TESTING - Return all generated rules pre-selection process === //
+	toReturn.push_back(("\nAll Generated rules: " + to_string(allGroupRules.size()) + " All cases covered: " +
+		to_string(allGroupCases.size()) + " Total target class cases covered by rules: " + "O" +
+		" Total incorrectly predicted cases: " + "0" + ", Target cases in data: " + "0" + "\n\n"));
 
-	string toAdd;
-	vector<int> casesCovered;
-	vector<int> incorrectCases;
-	vector<DNSRule> selectedRules;
-
+<<<<<<< Updated upstream
 	//While the following conditions are not true:
 	//1.) Target cases covered is not as large as the actual number of targer cases.
 	//2.) Selected rules is not larger then the number of rules to select.
@@ -3886,8 +3885,264 @@ pair<vector<string>, vector<DNSRule>> DomNominalSet::MTBRGSequential(double prec
 						}
 
 					}
+=======
+	//Print out all rules in a readable format:
+	for (int i = 0; i < allGeneratedRules.size(); i++)
+	{
+		DNSRule curRule = allGeneratedRules.at(i);
+
+		toReturn.push_back("Rule " + to_string(i + 1) + "\n");
+		toReturn.push_back("Class predicted: " + to_string(curRule.getRuleClass()) + "\n");
+		toReturn.push_back("Precision: " + to_string(curRule.getPrecision()) + "%\n");
+		toReturn.push_back("Coverage: " + to_string(curRule.getTotalCoverage()) + "%\n");
+		toReturn.push_back("Total cases predicted: " + to_string(curRule.getTotalCases()) + "\n");
+		toReturn.push_back("Correctly predicted: " + to_string(curRule.getCorrectCases()) + "\n");
+		toReturn.push_back("Incorrectly predicted: " + to_string(curRule.getIncorrectCases()) + "\n");
+		toReturn.push_back("Attributes and coordinates used: \n");
+		vector<int> curCoord = curRule.getCoordinatesUsed();
+		vector<double> curAttri = curRule.getAttributesUsed();
+		for (int j = 0; j < curCoord.size() - 1; j++)
+		{
+			string s = to_string(curAttri.at(j));
+			toReturn.push_back("X" + to_string(curCoord.at(j) + 1) + " -> " + s + "\n");
+		}
+		string s = to_string(curAttri.at(curCoord.size() - 1));
+		toReturn.push_back("X" + to_string(curCoord.at(curCoord.size() - 1) + 1) + " -> " + s + "\n\n");
+
+		toReturn.push_back("Negated Attributes: \n");
+		vector<double> negatedAttri = curRule.getNegatedAttributesUsed();
+
+		if (negatedAttri.size() >= 1)
+		{
+			for (int j = 0; j < negatedAttri.size() - 1; j++)
+			{
+				toReturn.push_back(to_string(negatedAttri.at(j)) + ", ");
+			}
+			toReturn.push_back(to_string(negatedAttri.at(negatedAttri.size() - 1)) + "\n\n\n");
+		}
+	}
+
+	pair<vector<string>, vector<DNSRule>> testToReturn;
+	testToReturn.first = toReturn;
+	testToReturn.second = allGeneratedRules;
+	return testToReturn;
+
+	//==================Selection Process=========================//
+
+	string toAdd;
+	vector<int> casesCovered;
+	vector<int> incorrectCases;
+	vector<DNSRule> selectedRules;
+
+	//While the following conditions are not true:
+	//1.) Target cases covered is not as large as the actual number of targer cases.
+	//2.) Selected rules is not larger then the number of rules to select.
+	while ((targetCasesCovered.size() != numCasesInTarget) && (selectedRules.size() != allGeneratedRules.size()))
+	{
+		//Sort list by number of target cases not yet covered.
+		vector<pair<int, int>> newTargetCasesPerRuleIndex;
+		for (int i = 0; i < allGeneratedRules.size(); i++)
+		{
+			DNSRule curRule = allGeneratedRules.at(i);
+			
+			int numNewTargetCases = 0;
+			vector<int> curRuleCases = curRule.getCasesUsed();
+			for (int j = 0; j < curRuleCases.size(); j++)
+			{
+				if (file->getClassOfSet(curRuleCases.at(j)) == targetClass)
+				{
+					int curCase = curRuleCases.at(j);
+
+					bool isContained = false;
+					for (int k = 0; k < targetCasesCovered.size(); k++)
+					{
+						if (targetCasesCovered.at(k) == curCase)
+						{
+							isContained = true; 
+							break;
+						}
+					}
+
+					if (!isContained)
+					{
+						numNewTargetCases++;
+					}
+				}
+			}
+
+			pair<int, int> newTargetIndexPair;
+			newTargetIndexPair.first = numNewTargetCases;
+			newTargetIndexPair.second = i;
+
+			if (numNewTargetCases != 0)
+			{
+				newTargetCasesPerRuleIndex.push_back(newTargetIndexPair);
+			}
+
+		}
+
+		//Sort the list.
+		sort(newTargetCasesPerRuleIndex.begin(), newTargetCasesPerRuleIndex.end());
+		reverse(newTargetCasesPerRuleIndex.begin(), newTargetCasesPerRuleIndex.end());
+
+		//Select highest in list. If the list is empty, end.
+		bool ruleSelected = false;
+		for (int i = 0; i < newTargetCasesPerRuleIndex.size(); i++)
+		{
+ 			pair<int, int> topRuleCandidate = newTargetCasesPerRuleIndex.at(i);
+			DNSRule topRuleCandidateDNS = allGeneratedRules.at(topRuleCandidate.second);
+			vector<int> curRuleCases = topRuleCandidateDNS.getCasesUsed();
+			double curRulePrecision = topRuleCandidateDNS.getPrecision();
+			if (curRuleCases.size() == 52)
+			{
+				int x = 0;
+			}
+
+			//Determine if any other rules are more general with the same or better precision.
+			for (int j = i + 1; j < newTargetCasesPerRuleIndex.size(); j++)
+			{
+				pair<int, int> replacementRule = newTargetCasesPerRuleIndex.at(j);
+				DNSRule replacementRuleDNS = allGeneratedRules.at(replacementRule.second);
+				vector<int> replacementRuleCases = replacementRuleDNS.getCasesUsed();
+				double replacementRulePrecision = replacementRuleDNS.getPrecision();
+				
+				//Check to see if this rule has the same number of uncovered cases.
+				if (replacementRule.first != topRuleCandidate.first)
+				{
+					break;
 				}
 
+				if (replacementRulePrecision >= curRulePrecision && replacementRuleCases.size() > curRuleCases.size())
+				{
+					//Replace the rule.
+					topRuleCandidate = replacementRule;
+					topRuleCandidateDNS = replacementRuleDNS;
+					curRuleCases = replacementRuleCases;
+					curRulePrecision = replacementRulePrecision;
+				}
+			}
+
+			//Determine if adding this rule will be benifical to the precision and coverage of all rules.
+			
+			//=========================Conditions ==============================//
+			//Condition 2: The number of new non target cases used must be less then the new target cases used.
+
+			//Determine how many non-target cases are in rule.
+			vector<int> curRuleNonTargetIDs;
+			for (int i = 0; i < curRuleCases.size(); i++)
+			{
+				if (file->getClassOfSet(curRuleCases.at(i)) != targetClass)
+				{
+					curRuleNonTargetIDs.push_back(curRuleCases.at(i));
+>>>>>>> Stashed changes
+				}
+
+<<<<<<< Updated upstream
+				//Record how many cases have been covered of the target class.
+				for (int i = 0; i < curRuleCases.size(); i++)
+				{
+					bool notContained = true;
+					for (int j = 0; j < targetCasesCovered.size(); j++)
+=======
+			//Determine how many non-target cases will be added to the overall rule case pool.
+			vector<int> nonTargetCasesNotContianed;
+			for (int i = 0; i < curRuleNonTargetIDs.size(); i++)
+			{
+				bool notContained = true;
+				for (int j = 0; j < nonTargetCasesCovered.size(); j++)
+				{
+					if (nonTargetCasesCovered.at(j) == curRuleNonTargetIDs.at(i))
+>>>>>>> Stashed changes
+					{
+						if (targetCasesCovered.at(j) == curRuleCases.at(i))
+						{
+							notContained = false;
+							break;
+						}
+					}
+
+<<<<<<< Updated upstream
+					if (notContained)
+					{
+						//If this is a case for the target class:
+						if (file->getClassOfSet(curRuleCases.at(i)) == targetClass)
+						{
+							targetCasesCovered.push_back(curRuleCases.at(i));
+						}
+					}
+=======
+				if (notContained)
+				{
+					nonTargetCasesNotContianed.push_back(curRuleNonTargetIDs.at(i));
+>>>>>>> Stashed changes
+				}
+
+<<<<<<< Updated upstream
+				//Record how many cases have been covered of the non target classes.
+				for (int i = 0; i < curRuleCases.size(); i++)
+				{
+					bool notContained = true;
+					for (int j = 0; j < nonTargetCasesCovered.size(); j++)
+					{
+						if (nonTargetCasesCovered.at(j) == curRuleCases.at(i))
+						{
+							notContained = false;
+							break;
+						}
+=======
+			double newTotal = (nonTargetCasesCovered.size() + nonTargetCasesNotContianed.size()) + (targetCasesCovered.size() + topRuleCandidate.first);
+			double newPrecision = ((targetCasesCovered.size() + topRuleCandidate.first) / newTotal) * 100.0;
+			double prevPrecision;
+
+			//Starting calc
+			if (selectedRules.size() == 0)
+			{
+				prevPrecision = 0;
+			}
+
+			double t1 = (targetCasesCovered.size() + nonTargetCasesCovered.size());
+			double t2 = targetCasesCovered.size();
+			prevPrecision = (t2 / t1) * 100.0;
+
+			if (topRuleCandidate.first != 0 && newPrecision >= prevPrecision)
+			{
+				//Record rule.
+				selectedRules.push_back(allGeneratedRules.at(topRuleCandidate.second));
+				ruleSelected = true;
+
+				//Record incorrect cases.
+				for (int i = 0; i < curRuleCases.size(); i++)
+				{
+					//If this is an incorrect case.
+					if (this->file->getClassOfSet(curRuleCases.at(i)) != targetClass)
+					{
+						//Check if in our list already.
+						bool isContained = false;
+						for (int j = 0; j < incorrectCases.size(); j++)
+						{
+							if (incorrectCases.at(j) == curRuleCases.at(i))
+							{
+								isContained = true;
+								break;
+							}
+						}
+
+						if (!isContained)
+						{
+							incorrectCases.push_back(curRuleCases.at(i));
+						}
+
+>>>>>>> Stashed changes
+					}
+
+<<<<<<< Updated upstream
+					if (notContained)
+					{
+						//If this is a case for the target class:
+						if (file->getClassOfSet(curRuleCases.at(i)) != targetClass)
+						{
+							nonTargetCasesCovered.push_back(curRuleCases.at(i));
+=======
 				//Record how many cases have been covered of the target class.
 				for (int i = 0; i < curRuleCases.size(); i++)
 				{
@@ -3907,10 +4162,21 @@ pair<vector<string>, vector<DNSRule>> DomNominalSet::MTBRGSequential(double prec
 						if (file->getClassOfSet(curRuleCases.at(i)) == targetClass)
 						{
 							targetCasesCovered.push_back(curRuleCases.at(i));
+>>>>>>> Stashed changes
 						}
 					}
 				}
 
+<<<<<<< Updated upstream
+				//Record all cases covered overall.
+				for (int i = 0; i < curRuleCases.size(); i++)
+				{
+					int ruleID = curRuleCases.at(i);
+					bool notContained = true;
+					for (int j = 0; j < casesCovered.size(); j++)
+					{
+						if (casesCovered.at(j) == ruleID)
+=======
 				//Record how many cases have been covered of the non target classes.
 				for (int i = 0; i < curRuleCases.size(); i++)
 				{
@@ -3918,10 +4184,13 @@ pair<vector<string>, vector<DNSRule>> DomNominalSet::MTBRGSequential(double prec
 					for (int j = 0; j < nonTargetCasesCovered.size(); j++)
 					{
 						if (nonTargetCasesCovered.at(j) == curRuleCases.at(i))
+>>>>>>> Stashed changes
 						{
 							notContained = false;
 							break;
 						}
+<<<<<<< Updated upstream
+=======
 					}
 
 					if (notContained)
@@ -3931,9 +4200,11 @@ pair<vector<string>, vector<DNSRule>> DomNominalSet::MTBRGSequential(double prec
 						{
 							nonTargetCasesCovered.push_back(curRuleCases.at(i));
 						}
+>>>>>>> Stashed changes
 					}
-				}
 
+<<<<<<< Updated upstream
+=======
 				//Record all cases covered overall.
 				for (int i = 0; i < curRuleCases.size(); i++)
 				{
@@ -3948,6 +4219,7 @@ pair<vector<string>, vector<DNSRule>> DomNominalSet::MTBRGSequential(double prec
 						}
 					}
 
+>>>>>>> Stashed changes
 					if (notContained)
 					{
 						casesCovered.push_back(ruleID);
@@ -5815,7 +6087,8 @@ vector<DNSRule> DomNominalSet::MTBRuleGeneration(double PrecThresh, vector<int> 
 			//Answer the chain.
 			if (linkGeneratedRule)
 			{
-				if (ruleGeneratedGreaterThen95 && currentChainHighestCoverage > highestCoverage)
+				//if (ruleGeneratedGreaterThen95 && currentChainHighestCoverage > highestCoverage)
+				if (ruleGeneratedGreaterThen95)
 				{
 					MTBC.giveAnswer(true);
 					highestCoverage = currentChainHighestCoverage;
@@ -5841,6 +6114,8 @@ vector<DNSRule> DomNominalSet::MTBRuleGeneration(double PrecThresh, vector<int> 
 
 	//=====Keep rules that satisfy thresholds=====//
 
+	// TESTING === Returns all rules generated === TESTING //
+	return DNSRulesGenerated;
 
 	//Go over all rules generated.
 	for (int i = 0; i < DNSRulesGenerated.size(); i++)

@@ -2,7 +2,11 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
+<<<<<<< Updated upstream
       <FullPath>C:\Users\Eli McCoy\Desktop\Research\VisCanvas2.0\Debug\VisCanvas.exe</FullPath>
+=======
+      <FullPath>I:\Work\OriginalEliCrossFoldValidation - Edited For Rule Testing\VisCanvas2.0\VisCanvas2.0_TemporaryUpdate\Debug\VisCanvas.exe</FullPath>
+>>>>>>> Stashed changes
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
