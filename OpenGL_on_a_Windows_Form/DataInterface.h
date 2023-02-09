@@ -431,6 +431,8 @@ public:
 	map<string, double> getAboveOne();
 	bool hasEmpty();
 	vector<vector<double>> getEmptys();
+	void updateClusters(vector<int>);
+	void resetClusters();
 	
 private:
 	
@@ -518,6 +520,7 @@ private:
 
 	// holds the clusters of the data
 	std::vector<SetCluster> clusters;
+	std::vector<SetCluster> oldClusters;
 	// holds the boolean of whether to paint the cluster or not
 	bool paintClusters;
 	// holds the boolean of whether to use class colors or hypercube colors when painting clusters 

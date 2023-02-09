@@ -79,6 +79,7 @@ bool DataInterface::readFile(string * filePath) {
 	dataClasses.clear();
 	dataSets.clear();
 	clusters.clear();
+	oldClusters.clear();
 	notes.clear();
 	useBlocks.clear();
 	init();
@@ -96,6 +97,7 @@ bool DataInterface::readFile(string * filePath) {
 		dataClasses.clear();
 		dataSets.clear();
 		clusters.clear();
+		oldClusters.clear();
 		notes.clear();
 		useBlocks.clear();
 		init();
@@ -1565,7 +1567,7 @@ std::vector<double>* DataInterface::getClusterColor(int clusterIndex) {
 	if (clusterIndex <0 || clusterIndex>getClusterAmount()) {
 		return nullptr;
 	}
-	return clusters[clusterIndex].getColor();
+	return clusters[clusterIndex].getColorComponents();
 }
 
 // sets the color of the cluster at the passed index
@@ -2663,11 +2665,10 @@ string DataInterface::highlightOverlap(double threshold)
 		}
 		//return string if emtpys else return ""
 		//Prompt user for inclusion of empty spots in hyper blocks
-		CppCLRWinformsProjekt::EmptySpotHBPicker^ eshbp = gcnew CppCLRWinformsProjekt::EmptySpotHBPicker(clusters, emptys, &esHBs);
-		eshbp->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Sizable;
-		eshbp->Show();
+		//CppCLRWinformsProject::EmptySpotHBPicker^ eshbp = gcnew CppCLRWinformsProject::EmptySpotHBPicker((*this), &esHBs);
+		//eshbp->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Sizable;
+		//eshbp->Show();
 
-		//OpenGL->file->setNominalColorChoice(ncp->getResult());
 		return esHBs;
 	}
 	return "";
@@ -3337,7 +3338,7 @@ void DataInterface::separateCluster(SetCluster cluster)
 	}
 
 	ColorCustom clusterColor = ColorCustom();
-	std::vector<double>* colorConponents = cluster.getColor();
+	std::vector<double>* colorConponents = cluster.getColorComponents();
 	clusterColor.setRed((*colorConponents)[0]);
 	clusterColor.setGreen((*colorConponents)[1]);
 	clusterColor.setBlue((*colorConponents)[2]);
@@ -4480,7 +4481,7 @@ map<std::string, double> DataInterface::getAboveOne() {
 
 bool DataInterface::hasEmpty()
 {
-	return false;
+	//return false;
 	return aboveOne.size() > 0;
 }
 
@@ -4498,4 +4499,28 @@ std::vector<std::vector<double>> DataInterface::getEmptys() {
 		}
 	}
 	return emptys;
+}
+
+void DataInterface::updateClusters(vector<int> eshbs) {
+	//Updates clusters
+	//oldClusters = clusters;
+	for (int i = 0; i < clusters.size(); i++) {
+		ColorCustom clusterColor = clusters[i].getColor(); //ColorCustom();
+		std::vector<int> *clusterSets = clusters[i].getSets();
+		oldClusters.push_back(SetCluster(clusterColor, clusterSets/*, &dataDimensions*/));
+		oldClusters[i].setRadius(clusters[i].getRadius());
+		oldClusters[i].setOriginalSet(clusters[i].getOriginalSet());
+		oldClusters[i].setName(clusters[i].getName());
+		if (useMean) {
+			oldClusters[i].setUseMean(clusters[i].isUseMean());
+			oldClusters[1].calculateValues(&dataDimensions);
+		}
+	}
+	for (int i = 0; i < eshbs.size(); i++) {
+		clusters[i].addSet(eshbs[i]);
+	}
+}
+
+void DataInterface::resetClusters() {
+	clusters = oldClusters;
 }

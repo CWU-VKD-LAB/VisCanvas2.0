@@ -4,9 +4,9 @@
 #include <vector>
 #include <list>
 #include "SetCluster.h"
-#include "OpenGL.h"
+#include "DataInterface.h"
 
-namespace CppCLRWinformsProjekt {
+namespace CppCLRWinformsProject {
 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -18,8 +18,11 @@ namespace CppCLRWinformsProjekt {
 
 	public ref class EmptySpotHBPicker : public System::Windows::Forms::Form
 	{
-	public: EmptySpotHBPicker(/*System::Object^ sender,*/ vector<SetCluster> hbs, vector<vector<double>> es, string* eshbs)
+	public: EmptySpotHBPicker(/*System::Object^ sender,*/ DataInterface file, string* eshbs)
 	{
+		this->file = &file;
+		vector<SetCluster> hbs = file.getClusters();
+		vector<vector<double>> es = file.getEmptys();
 		blocks = new vector<SetCluster>();
 		for (int i = 0; i < hbs.size(); i++) {
 			blocks->push_back(hbs[i]);
@@ -83,6 +86,8 @@ namespace CppCLRWinformsProjekt {
 		   //Get rid of file selection and ordering buttons
 		   //Display hyperblocks
 	private: String^ path;
+		   //DataInterface... Perhaps some of these can be combined
+	private: DataInterface* file;
 
 #pragma region 
 		   void InitializeComponent(void)
@@ -225,8 +230,8 @@ namespace CppCLRWinformsProjekt {
 	private:
 		System::Void drawTables();
 	private: System::Void submitButton_Click(System::Object^ sender, System::EventArgs^ e);
-	private: System::Void submit(System::String^ column);
-	private: System::Void visualize(System::String^ column);
+	//private: System::Void submit(System::String^ column);
+	//private: System::Void visualize(System::String^ column);
 	private: System::Void visualizeButton_Click(System::Object^ sender, System::EventArgs^ e);
 	};
 }

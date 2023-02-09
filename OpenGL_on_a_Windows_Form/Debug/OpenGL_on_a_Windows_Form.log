@@ -1,0 +1,13 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(2203,5): warning MSB3245: Could not resolve this reference. Could not locate the assembly "Microsoft.VisualBasic.PowerPacks.Vs". Check to make sure the assembly exists on disk. If this reference is required by your code, you may get compilation errors.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(2827,5): warning MSB3284: Cannot get the file path for type library "05bfd3f1-6319-4f30-b752-c7a22889bcc4" version 1.0. Library not registered. (Exception from HRESULT: 0x8002801D (TYPE_E_LIBNOTREGISTERED))
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(2827,5): warning MSB3284: Cannot get the file path for type library "05bfd3f1-6319-4f30-b752-c7a22889bcc4" version 1.0. Library not registered. (Exception from HRESULT: 0x8002801D (TYPE_E_LIBNOTREGISTERED))
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.MetaGen.targets(91,5): warning : Required file "C:\USERS\SHISSLERS\SOURCE\REPOS\VISCANVAS2.0\OPENGL_ON_A_WINDOWS_FORM\INTEROP\INTEROP.ACROPDFLIB.1.0.DLL" is missing.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.MetaGen.targets(91,5): warning : Required file "C:\USERS\SHISSLERS\SOURCE\REPOS\VISCANVAS2.0\OPENGL_ON_A_WINDOWS_FORM\INTEROP\AXINTEROP.ACROPDFLIB.1.0.DLL" is missing.
+  EmptySpotHBPicker.cpp
+C:\Users\samsh\Documents\GitHub\CWU-VKD-LAB\VisCanvas2.0\VisCanvas2.0\OpenGL_on_a_Windows_Form\EmptySpotHBPicker.h(27,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\samsh\Documents\GitHub\CWU-VKD-LAB\VisCanvas2.0\VisCanvas2.0\OpenGL_on_a_Windows_Form\EmptySpotHBPicker.h(33,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\samsh\Documents\GitHub\CWU-VKD-LAB\VisCanvas2.0\VisCanvas2.0\OpenGL_on_a_Windows_Form\EmptySpotHBPicker.h(35,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\samsh\Documents\GitHub\CWU-VKD-LAB\VisCanvas2.0\VisCanvas2.0\OpenGL_on_a_Windows_Form\EmptySpotHBPicker.cpp(158,28): warning C4018: '>=': signed/unsigned mismatch
+C:\Users\samsh\Documents\GitHub\CWU-VKD-LAB\VisCanvas2.0\VisCanvas2.0\OpenGL_on_a_Windows_Form\EmptySpotHBPicker.cpp(209,28): warning C4018: '>=': signed/unsigned mismatch
+  AssemblyInfo.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
+  OpenGL_on_a_Windows_Form.vcxproj -> C:\Users\samsh\Documents\GitHub\CWU-VKD-LAB\VisCanvas2.0\VisCanvas2.0\Debug\VisCanvas.exe

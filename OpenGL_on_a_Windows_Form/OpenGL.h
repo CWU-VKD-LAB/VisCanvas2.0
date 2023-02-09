@@ -286,12 +286,12 @@ namespace OpenGLForm
 			
 			string esHBs = this->file->highlightOverlap(0.0);
 			//Maybe move the EmptySpotHBPicker call here?
-			//if ((*file).hasEmpty()) {
-			//	//using namespace CppCLRWinformsProjekt;
-			//	EmptySpotHBPicker^ eshbp = gcnew EmptySpotHBPicker(file->getClusters(), file->getEmptys(), &esHBs);
-			//	eshbp->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Sizable;
-			//	eshbp->Show();
-			//}
+			if ((*file).hasEmpty()) {
+				//using namespace CppCLRWinformsProjekt;
+				CppCLRWinformsProject::EmptySpotHBPicker^ eshbp = gcnew CppCLRWinformsProject::EmptySpotHBPicker((*file), &esHBs);
+				eshbp->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Sizable;
+				eshbp->Show();
+			}
 
 		}
 
@@ -1363,7 +1363,7 @@ namespace OpenGLForm
 				for (int j = 0; j < overlaps->size(); j++)
 				{
 					SetCluster* currCube = &overlaps->at(j);
-					std::vector<double>* colorOfCurrent = currCube->getColor();
+					std::vector<double>* colorOfCurrent = currCube->getColorComponents();
 					glColor4d((*colorOfCurrent)[0], (*colorOfCurrent)[1], (*colorOfCurrent)[2], /*0.3*/(*colorOfCurrent)[3]);
 					glColor4d(192.0, 192.0, 192.0, 0.01);
 

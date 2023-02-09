@@ -54,6 +54,27 @@ SetCluster::SetCluster(ColorCustom &clusterColor, std::vector<int>* newSetsInClu
 	std::sort(setsInCluster.begin(), setsInCluster.end());
 }
 
+// creates the cluster with the passed sets
+SetCluster::SetCluster(ColorCustom clusterColor, std::vector<int> newSetsInCluster) {
+	color = clusterColor;
+	setsInCluster = std::vector<int>();
+	minimumValues = std::vector<double>();
+	minimumPositiveValues = std::vector<double>();
+	emptySpotValues = std::vector<std::vector<double>>();
+	meanValues = std::vector<double>();
+	medianValues = std::vector<double>();
+	maximumValues = std::vector<double>();
+	radius = 0;
+	useMean = false;
+	displayed = true;
+	this->size = this->getSets()->size();
+
+	for (int i = 0; i < newSetsInCluster.size(); i++) {
+		setsInCluster.push_back(newSetsInCluster[i]);
+	}
+	std::sort(setsInCluster.begin(), setsInCluster.end());
+}
+
 // creates the cluster with the passed sets and values from the passed dimensions
 SetCluster::SetCluster(ColorCustom &clusterColor, std::vector<int>* newSetsInCluster, std::vector<Dimension*>* dimensionsToCalculateWith) {
 	// intialize fields
@@ -368,9 +389,14 @@ bool SetCluster::moveValues(int originalIndex, int indexOfInsertion) {
 }
 
 // gets the color components of the cluster
-std::vector<double>* SetCluster::getColor()
+std::vector<double>* SetCluster::getColorComponents()
 {
 	return color.getColorComponents();
+}
+
+ColorCustom SetCluster::getColor()
+{
+	return color;
 }
 
 std::vector<double> SetCluster::getCenter()

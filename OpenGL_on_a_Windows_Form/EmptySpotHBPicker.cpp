@@ -9,9 +9,10 @@
 #include "Scheme.h"
 #include "ClassScheme.h"
 #include <cstdlib>
+#include "DataInterface.h"
 
 
-System::Void CppCLRWinformsProjekt::EmptySpotHBPicker::drawTables() {
+System::Void CppCLRWinformsProject::EmptySpotHBPicker::drawTables() {
 
 	//Read data:
 	std::stringstream test(*esHBs);
@@ -148,13 +149,13 @@ System::Void CppCLRWinformsProjekt::EmptySpotHBPicker::drawTables() {
 
 // ===submitOrderButton_Click===:
 // Desc: Submits selections/changes made to table.
-System::Void CppCLRWinformsProjekt::EmptySpotHBPicker::submitButton_Click(System::Object^ sender, System::EventArgs^ e)
+System::Void CppCLRWinformsProject::EmptySpotHBPicker::submitButton_Click(System::Object^ sender, System::EventArgs^ e)
 {
 	Int32 selectedRowCount = this->dataGridView->SelectedRows->Count;
-	if (selectedRowCount > 0) {
+	if (selectedRowCount == 0) {
 		// Display Error message for too few selections. No selections were made.
 	}
-	else if (selectedRowCount <= emptys->size()) {
+	else if (selectedRowCount >= emptys->size()) {
 		// Display Error Message for too many selections
 		//MessageBox.show("Some Text", "Some title", MessageBoxButtons.OK, MessageBoxIcon.Error);
 	}
@@ -190,190 +191,73 @@ System::Void CppCLRWinformsProjekt::EmptySpotHBPicker::submitButton_Click(System
 		//if (done) {
 		//	return;
 		//}
+		//(*file).getEmptys();
+		//(*file).updateClusters((*emptyhbs));
+		this->Close();
 	}
 }
 
 // ===descendingOrderButton_Click===:
 // Desc: Handles sorting in descending order.
-System::Void CppCLRWinformsProjekt::EmptySpotHBPicker::visualizeButton_Click(System::Object^ sender, System::EventArgs^ e)
+System::Void CppCLRWinformsProject::EmptySpotHBPicker::visualizeButton_Click(System::Object^ sender, System::EventArgs^ e)
 {
-	//Get input from user:
-	//String^ inputM = this->columnInputFeild->Text;
+	Int32 selectedRowCount = this->dataGridView->SelectedRows->Count;
+	if (selectedRowCount == 0) {
+		// Display Error message for too few selections. No selections were made.
+	}
+	else if (selectedRowCount >= emptys->size()) {
+		// Display Error Message for too many selections
+		//MessageBox.show("Some Text", "Some title", MessageBoxButtons.OK, MessageBoxIcon.Error);
+	}
+	else
+	{
+		int hbind = 0;
+		int esind = 0;
+		std::vector<int> esinds;
 
-	//Sort:
-	//sortDesending(inputM);
+		for (int i = 0; i < selectedRowCount; i++)
+		{
+			// index of selected row mod (number of hbs + 1) gives index of empty spot
+			esind = (int)this->dataGridView->SelectedRows[i]->Index % ((int)this->dataGridView->RowCount / emptys->size());
+			// (index of selected row mod number of cases) - 1 gives index of hyperblock
+			hbind = ((int)this->dataGridView->SelectedRows[i]->Index % emptys->size()) - 1;
+			if (hbind >= 0 && std::find(esinds.begin(), esinds.end(), esind) != esinds.end()) {
+				(*emptyhbs)[esind] = hbind;
+			}
+		}
+		// Return New HBs
+
+		// Close window
+		//this.Close();
+
+		//Need to find somewhere else for this
+		//bool done = TRUE;
+		//for (int i = 0; i < (*emptyhbs).size(); i++) {
+		//	if ((*emptyhbs)[i] < 0) {
+		//		done = FALSE;
+		//		break;
+		//	}
+		//}
+		//if (done) {
+		//	return;
+		//}
+		(*file).updateClusters((*emptyhbs));
+		this->Close();
+	}
 }
 
-// ===sortAscending===:
-// Desc: sort.
-System::Void CppCLRWinformsProjekt::EmptySpotHBPicker::submit(System::String^ column)
-{
-	KVPair** arrKV = new KVPair * [numRows + 1];
-	std::string temp;
-	std::string notM;
-
-	//Create array:
-	for (int i = 0; i < numRows + 1; i++)
-	{
-		arrKV[i] = new KVPair();
-	}
-
-	//Go over rows:
-	for (int i = 0; i <= numRows; i++)
-	{
-		DataGridViewRow^ curRow = this->dataGridView->Rows[i];
-		temp += msclr::interop::marshal_as<std::string>(curRow->Cells["ID"]->Value->ToString());
-		for (int j = 1; j <= numDimensions; j++)
-		{
-			temp += "," + msclr::interop::marshal_as<std::string>(curRow->Cells["X" + j]->Value->ToString());
-		}
-
-		notM = msclr::interop::marshal_as<std::string>(curRow->Cells[column]->Value->ToString());
-		arrKV[i]->key += notM;
-		arrKV[i]->rowData = temp;
-		temp = "";
-	}
-
-	//Sort:
-	for (int i = 0; i <= numRows - 1; i++)
-	{
-		for (int j = 0; j < numRows - i; j++)
-		{
-			float keyj1 = stof(arrKV[j]->key);
-			float keyjp1 = stof(arrKV[j + 1]->key);
-
-			if (keyj1 > keyjp1)
-			{
-				KVPair* temp = arrKV[j];
-				arrKV[j] = arrKV[j + 1];
-				arrKV[j + 1] = temp;
-			}
-		}
-	}
-
-	//Set Rows Equal:
-	for (int i = 0; i <= numRows; i++)
-	{
-		std::string curKey = arrKV[i]->key;
-		std::string curValue = arrKV[i]->rowData;
-		DataGridViewRow^ r = this->dataGridView->Rows[i];
-
-		//Parse String and set values:
-		int pos = 0;
-		int curCell = 0;
-		std::string token;
-		while ((pos = curValue.find(",")) != std::string::npos)
-		{
-			//Get cur token:
-			token = curValue.substr(0, pos);
-
-			//Save to sorting table:
-			sortingTable[i][curCell] = token;
-
-			//Add to cell:
-			if (curCell == 0)
-			{
-				r->Cells["ID"]->Value = gcnew String(token.c_str());
-			}
-			else
-			{
-				r->Cells["X" + curCell]->Value = gcnew String(token.c_str());
-			}
-
-			//Erase used data and move to next cell:
-			curValue.erase(0, pos + 1);
-			curCell++;
-		}
-
-		//Account for last:
-		r->Cells["X" + curCell]->Value = gcnew String(curValue.c_str());
-	}
-
-}
-
-// ===sortdescending===:
-// Desc: sort.
-System::Void CppCLRWinformsProjekt::EmptySpotHBPicker::visualize(System::String^ column)
-{
-	KVPair** arrKV = new KVPair * [numRows + 1];
-	std::string temp;
-	std::string notM;
-
-	//Create array:
-	for (int i = 0; i < numRows + 1; i++)
-	{
-		arrKV[i] = new KVPair();
-	}
-
-	//Go over rows:
-	for (int i = 0; i <= numRows; i++)
-	{
-		DataGridViewRow^ curRow = this->dataGridView->Rows[i];
-		temp += msclr::interop::marshal_as<std::string>(curRow->Cells["ID"]->Value->ToString());
-		for (int j = 1; j <= numDimensions + 1; j++)
-		{
-			temp += "," + msclr::interop::marshal_as<std::string>(curRow->Cells["X" + j]->Value->ToString());
-		}
-
-		notM = msclr::interop::marshal_as<std::string>(curRow->Cells[column]->Value->ToString());
-		arrKV[i]->key += notM;
-		arrKV[i]->rowData = temp;
-		temp = "";
-	}
-
-	//Sort:
-	for (int i = 0; i <= numRows - 1; i++)
-	{
-		for (int j = 0; j < numRows - i; j++)
-		{
-			float keyj1 = stof(arrKV[j]->key);
-			float keyjp1 = stof(arrKV[j + 1]->key);
-
-			if (keyj1 < keyjp1)
-			{
-				KVPair* temp = arrKV[j];
-				arrKV[j] = arrKV[j + 1];
-				arrKV[j + 1] = temp;
-			}
-		}
-	}
-
-	//Set Rows Equal:
-	for (int i = 0; i <= numRows; i++)
-	{
-		std::string curKey = arrKV[i]->key;
-		std::string curValue = arrKV[i]->rowData;
-		DataGridViewRow^ r = this->dataGridView->Rows[i];
-
-		//Parse String and set values:
-		int pos = 0;
-		int curCell = 0;
-		std::string token;
-		while ((pos = curValue.find(",")) != std::string::npos)
-		{
-			//Get cur token:
-			token = curValue.substr(0, pos);
-
-			//Save to sorting table:
-			sortingTable[i][curCell] = token;
-
-			//Add to cell:
-			if (curCell == 0)
-			{
-				r->Cells["ID"]->Value = gcnew String(token.c_str());
-			}
-			else
-			{
-				r->Cells["X" + curCell]->Value = gcnew String(token.c_str());
-			}
-
-			//Erase used data and move to next cell:
-			curValue.erase(0, pos + 1);
-			curCell++;
-		}
-
-		//Account for last:
-		r->Cells["X" + curCell]->Value = gcnew String(curValue.c_str());
-	}
-
-}
+//// ===sortAscending===:
+//// Desc: sort.
+//System::Void CppCLRWinformsProject::EmptySpotHBPicker::submit(System::String^ column)
+//{
+//
+//}
+//
+//// ===sortdescending===:
+//// Desc: sort.
+//System::Void CppCLRWinformsProject::EmptySpotHBPicker::visualize(System::String^ column)
+//{
+//
+//}
+//
+//}

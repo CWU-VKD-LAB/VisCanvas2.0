@@ -14,6 +14,7 @@ public:
 	SetCluster(ColorCustom &clusterColor);
 	// creates the cluster with the passed sets
 	SetCluster(ColorCustom &clusterColor, std::vector<int>* newSetsInCluster);
+	SetCluster(ColorCustom clusterColor, std::vector<int> newSetsInCluster);
 	// creates the cluster with the passed sets and values from the passed dimensions
 	SetCluster(ColorCustom &clusterColor, std::vector<int>* newSetsInCluster, std::vector<Dimension*>* dimensionToCalculateWith);
 	// deletes object
@@ -61,7 +62,9 @@ public:
 	int getSize() const;
 
 	// gets the color components of the cluster
-	std::vector<double>* getColor();
+	std::vector<double>* getColorComponents();
+	// gets the color object of the cluster
+	ColorCustom getColor();
 	// sets the color components of the cluster
 	void setColor(std::vector<double>& newColor);
 	// sets the color components of the cluster

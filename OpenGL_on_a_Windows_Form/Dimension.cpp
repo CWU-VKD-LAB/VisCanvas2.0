@@ -149,8 +149,8 @@ void Dimension::calibrateData(int style) {
 	else
 	{
     //Try with this (empty spots)
-		for (unsigned int i = 0; i < data.size(); i++) { //Normalize data
-			(*data[i]).setDataCurrent(((*data[i]).getData() - minimum) / range);
+		//for (unsigned int i = 0; i < data.size(); i++) { //Normalize data
+		//	(*data[i]).setDataCurrent(((*data[i]).getData() - minimum) / range);
     //main
 		// reset data
 		for (int i = 0; i < this->size(); i++) {
