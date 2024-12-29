@@ -1,7 +1,8 @@
 # VisCanvas2.0
 
-Visualization software for multidimensional (n-D) data plotting and analysis.
+Visualization software for n-D data plotting in Parallel Coordinates and hypercube cluster analysis.
 
+Fisher Iris data plotted in Parallel Coordinates with the axes adjusted vertically to straighten the Setosa class visual pattern horizontally showing the class distinction.
 ![VisCanvas](viscanvas_iris.png)
 
 ## Data Format
