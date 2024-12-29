@@ -1,6 +1,6 @@
 # VisCanvas2.0
 
-Visualization software for nD data plotting and analysis
+Visualization software for multidimensional (n-D) data plotting and analysis.
 
 ![VisCanvas](viscanvas_iris.png)
 
