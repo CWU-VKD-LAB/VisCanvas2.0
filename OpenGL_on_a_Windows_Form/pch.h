@@ -1,12 +1,12 @@
-// pch.h: Dies ist eine vorkompilierte Headerdatei.
-// Die unten aufgeführten Dateien werden nur einmal kompiliert, um die Buildleistung für zukünftige Builds zu verbessern.
-// Dies wirkt sich auch auf die IntelliSense-Leistung aus, Codevervollständigung und viele Features zum Durchsuchen von Code eingeschlossen.
-// Die hier aufgeführten Dateien werden jedoch ALLE neu kompiliert, wenn mindestens eine davon zwischen den Builds aktualisiert wird.
-// Fügen Sie hier keine Dateien hinzu, die häufig aktualisiert werden sollen, da sich so der Leistungsvorteil ins Gegenteil verkehrt.
+// pch.h: This is a precompiled header file.
+// The files listed below are compiled only once to improve build performance for future builds.
+// This also affects IntelliSense performance, including code completion and many code browsing features.
+// However, all the files listed here will be recompiled if any one of them is updated between builds.
+// Do not add files here that are frequently updated, as this would negate the performance benefit.
 
 #ifndef PCH_H
 #define PCH_H
 
-// Fügen Sie hier Header hinzu, die vorkompiliert werden sollen.
+// Add headers here that should be precompiled.
 
 #endif //PCH_H
